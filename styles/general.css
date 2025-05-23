@@ -3,9 +3,16 @@
   --textPrimary: rgb(200, 200, 200);
 }
 
+@media (prefers-color-scheme: light) {
+  :root {
+  --bgColor: rgb(200, 200, 200);
+  --textPrimary: rgb(30, 30, 30);
+  }
+}
+
 .root-layout {
   width: 100%;
-   min-height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -33,5 +40,13 @@ p {
 }
 
 .box {
-  width: 100%;
+  display: grid;
+}
+
+@media (max-width: 768px) {
+  a {
+    cursor: default;
+  }
+
+  
 }
