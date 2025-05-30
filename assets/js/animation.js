@@ -1,6 +1,5 @@
-const nav = document.querySelector('.nav-container')
 
-document.addEventListener('DOMContentLoaded', async () => {
+async function popUp() {
   const items = document.querySelectorAll('.pop-up');
 
   for (let i = 0; i < items.length; i++) {
@@ -14,26 +13,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   setTimeout(() => {
       items.forEach((item) => {
-      item.classList.remove('pop-up')
+        item.classList.remove('pop-up')
+        item.classList.remove('page-in')
     }) 
   }, 500)
+}
   
-});
-
-document.querySelectorAll('.nav-item').forEach(item => {
-  item.addEventListener('click', (e) => {
-    e.preventDefault()
-    const href = e.currentTarget.href
-    
-    document.querySelector('.nav-item.active').classList.remove('active')
-    e.currentTarget.classList.add('active')
-    
-    document.querySelector('.main-content').classList.add('page-exit')
-
-    setTimeout(() => {
-      window.location.href = href
-    }, 20)
-    
-  })
-})
 

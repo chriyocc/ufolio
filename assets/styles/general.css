@@ -8,13 +8,27 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column; 
-  background-color: var(--bgColor);
+}
+
+/* html {
+  scrollbar-color: var(--textPrimary) var(--bgColor);
+} */
+
+html {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
 }
 
 body {
   height: 100%;
-  width: 100vw;
+  width: 100%;
   margin: 0;
+  background-color: var(--bgColor);
 }
 
 p {
@@ -33,21 +47,24 @@ p {
   transition: scale 0.2s ease-out, opacity 0.2s ease-out;
 }
 
-.main-content.page-exit {
-  scale: 0.99;
-  opacity: 0;
-}
-
-
 @media (prefers-color-scheme: light) {
   :root {
-  --bgColor: rgb(200, 200, 200);
-  --textPrimary: rgb(30, 30, 30);
+  --bgColor: rgb(222,222,222);
+  --textPrimary: rgb(76, 76, 76);
   }
+
 }
 
 @media (max-width: 768px) {
   a {
     cursor: default;
+  }
+
+  .project-card {
+    scale: 1.05;
+  }
+
+  .project-container {
+    margin-top: 10px;
   }
 }

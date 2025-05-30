@@ -41,7 +41,6 @@
   padding: 10px;
   background: transparent;
   border-radius: 100%;
-  fill: var(--textPrimary);
   transition: all 0.3s ease;
   overflow: hidden;
 }
