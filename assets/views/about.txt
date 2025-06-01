@@ -1,8 +1,0 @@
-<div class="main-content">
-  <div class="me-container">
-    <p class="greet pop-up">Hi...</p>
-    <p class="greet pop-up">I'm Jun</p>
-  </div>
-</div>
-
-

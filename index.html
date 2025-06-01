@@ -6,18 +6,19 @@
   <title>yoyojun</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Passion+One:wght@400;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/styles/general.css">
-  <link rel="stylesheet" href="/assets/styles/header.css">
-  <link rel="stylesheet" href="/assets/styles/projects.css">
-  <link rel="stylesheet" href="/assets/styles/nav-bar.css">
-  <link rel="stylesheet" href="/assets/styles/about.css">
-  <link rel="stylesheet" href="/assets/styles/animation.css">
-  <link rel="stylesheet" href="/assets/images/icon-bulb.svg">
-  <link rel="stylesheet" href="/assets/images/icon-face.svg">
-  <link rel="stylesheet" href="/assets/images/icon-step.svg">
-  <link rel="stylesheet" href="/assets/images/img-udo.png">
-  <script src="/assets/js/animation.js" defer></script> <!-- defer: execute after DOM finish (delay) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/assets/styles/general.css">
+  <link rel="stylesheet" href="/src/assets/styles/header.css">
+  <link rel="stylesheet" href="/src/assets/styles/projects.css">
+  <link rel="stylesheet" href="/src/assets/styles/nav-bar.css">
+  <link rel="stylesheet" href="/src/assets/styles/about.css">
+  <link rel="stylesheet" href="/src/assets/styles/animation.css">
+  <link rel="icon" href="/src/assets/images/icon-bulb.svg">
+  <link rel="icon" href="/src/assets/images/icon-face.svg">
+  <link rel="icon" href="/src/assets/images/icon-step.svg">
+  <link rel="" as="image" href="/src/assets/images/img-udo.png">
+  <script type="module" src="/src/main.js"></script>
+  
 
 </head>
 <body>
@@ -25,14 +26,14 @@
     <div class="root-content">
       <div class="nav-bar">
         <div class="nav-container">
-          <a id="about" class="nav-item active" onclick="router.navigate('about')" title="About Me">
-            <img class="" src="/assets/images/icon-face.svg"></img>
+          <a id="about" class="nav-item active" title="About Me">
+            <img class="" src="/src/assets/images/icon-face.svg"></img>
           </a>
-          <a id="projects" class="nav-item" onclick="router.navigate('projects')" title="Projects">
-            <img class="" src="/assets/images/icon-bulb.svg"></img>
+          <a id="projects" class="nav-item" title="Projects">
+            <img class="" src="/src/assets/images/icon-bulb.svg"></img>
           </a>
-          <a id="journey" class="nav-item" onclick="router.navigate('journey')" title="Journey">
-            <img class="" src="/assets/images/icon-step.svg"></img>
+          <a id="journey" class="nav-item" title="Journey">
+            <img class="" src="/src/assets/images/icon-step.svg"></img>
           </a>
         </div>
       </div>
@@ -43,116 +44,13 @@
         </svg>
       </div>
 
+      <!-- All content will load in main-content -->
       <div id="content-page" class="main-content"></div>
 
     </div>
   </div>
-
-  <script>
-    class Router {
-      constructor() {
-        this.routes = {
-          'about': this.renderAbout,
-          'projects': this.renderProjects,
-          'journey': this.renderJourney
-        };
-
-        this.contentEl = document.getElementById('content-page');
-        
-        //Handle browser back/forward
-        window.addEventListener('popstate', (e) => {
-            const route = e.state?.route || 'about';
-            this.navigate(route, false);
-        });
-
-        //Initial render
-        const initRoute = this.getRouteFromUrl();
-        this.navigate(initRoute, false);
-      }
-
-      getRouteFromUrl() {
-        // Get route from URL hash (e.g., #users -> users)
-        const hash = window.location.hash.substring(1);
-        return hash && this.routes[hash] ? hash : 'about';
-      }
-
-      navigate(route, pushState = true) {
-
-        this.currentRoute = route;
-
-        if (pushState) {
-          history.pushState({route}, '', `#${route}`);
-        }
-
-        document.querySelector('.nav-item.active').classList.remove('active');
-        document.querySelector(`[onclick*="${route}"]`)?.classList.add('active');
-
-        this.routes[route].call(this);
-
-      }
-
-      async renderAbout() {
-        const response = await fetch('assets/views/about.txt');
-        if(!response.ok) throw new Error(`HTTP ${response.status}`);
-        const html = await response.text();
-        console.log(html);
-        
-        this.contentEl.innerHTML = html;
-        popUp()
-      }
-
-      async renderProjects() {
-        try {
-          const response = await fetch('/assets/views/projects.json');
-          if(!response.ok) throw new Error(`HTTP ${response.status}`);
-          const projects = await response.json();
-          
-          const projectsHTML = projects.map(project => `
-            <div class="project-card pop-up">
-              <img class="thumbnail" src="${project.image}">
-              <div class="project-info">
-                <p class="project-date">${project.date}</p>
-                <div class="project-title-bar">
-                  <p class="project-title">${project.title}</p>
-                  <div class="logo-container">
-                    ${project.tool_icon1}
-                    ${project.tool_icon2}
-                  </div>
-                </div>
-                <p class="project-description">${project.description}</p>
-              </div>
-            </div>
-          `).join('');
-
-          const fullHTML = `
-            <div class="box">
-              <div class="project-container">
-                ${projectsHTML}
-              </div>
-            </div>
-          `
-
-          this.contentEl.innerHTML = fullHTML;
-          popUp()
-        } catch(error) {
-          console.error('Failed to load projects', error);
-        }
-      }
-
-      async renderJourney() {
-          const response = await fetch('assets/views/journey.html');
-          if(!response.ok) throw new Error(`HTTP ${response.status}`);
-          const html = await response.text();
-          this.contentEl.innerHTML = html;
-          popUp()
-      }
-    }
-
-    //Initialize the Router
-    const router = new Router();
-
-
-
-  </script>
+  
+  <script src="/src/assets/js/animation.js"></script>
+  
 </body>
 </html>

@@ -1,0 +1,16 @@
+.me-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+
+.greet {
+  color: var(--textPrimary);
+  font-family: var(--fontSecondary);
+  font-weight: 800;
+  font-size: 120px;
+
+}
+
+
