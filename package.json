@@ -22,5 +22,8 @@
   "homepage": "https://github.com/chriyocc/ufolio#readme",
   "devDependencies": {
     "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "browser-sync": "^3.0.4"
   }
 }

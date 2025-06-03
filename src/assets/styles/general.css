@@ -1,7 +1,7 @@
 :root {
   --bgColor: rgb(30, 30, 30);
   --textPrimary: rgb(200, 200, 200);
-  --fontSecondary: "Inter", sans-serif;;
+  --fontSecondary: "Inter", sans-serif;
 }
 
 .root-layout {
@@ -12,8 +12,8 @@
 }
 
 html {
-    overflow: scroll;
-    overflow-x: hidden;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -38,14 +38,21 @@ p {
 }
 
 .root-content {
-  padding-left: 100px;
-  padding-right: 100px;
+  padding-left: 8%;
+  padding-right: 8%;
   flex-shrink: 0;
 }
 
 .main-content {
   opacity: 1;
   transition: scale 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+.page-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @media (prefers-color-scheme: light) {

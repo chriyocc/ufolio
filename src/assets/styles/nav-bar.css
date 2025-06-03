@@ -2,7 +2,7 @@
   display: flex;
   position: fixed;
   padding-block: 20px;
-  z-index: 999;
+  z-index: 1500;
   left: 0;
   right: 0;
   bottom: 20px;

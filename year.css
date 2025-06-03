@@ -1,0 +1,26 @@
+.year-selector {
+  display: flex;
+  width: 100%;
+  background-color: var(--bgColor);
+  /* justify-content: center; */
+  gap: 20px;
+}
+
+.year {
+  font-family: var(--fontSecondary);
+  font-size: 15px;
+  color: var(--textPrimary);
+  border: 0.5px solid rgba(255, 255, 255, 0.095);
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 30px;
+  box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.year:hover {
+  background-color: var(--textPrimary);
+  color: var(--bgColor);
+}

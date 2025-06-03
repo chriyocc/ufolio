@@ -74,27 +74,99 @@ class Router {
       `).join('');
 
       const fullHTML = `
-        <div class="box">
+        <div class="page-wrapper">
           <div class="project-container">
             ${projectsHTML}
           </div>
         </div>
       `
-      
+
       this.contentEl.innerHTML = fullHTML;
 
       popUp()
+
     } catch(error) {
       console.error('Failed to load projects', error);
     }
   }
 
   async renderJourney() {
-      const response = await fetch('/src/assets/views/journey.html');
+    try {
+      const response = await fetch('/src/assets/views/journey.json');
       if(!response.ok) throw new Error(`HTTP ${response.status}`);
-      const html = await response.text();
-      this.contentEl.innerHTML = html;
+      const journeys = await response.json();
+
+      const journeysHTML = journeys.map(journey => `
+          <div class="timeline_item">
+            <div class="timeline_left">
+              <div class="timeline_date-text">${journey.date}</div>
+            </div>
+            <div class="timeline_centre">
+              <div class="timeline_circle"></div>
+            </div>
+            <div class="timeline_right">
+              <div class="timeline-card">
+                <div class="timeline_title-bar">
+                  <div class="timeline_title">
+                    ${journey.title}
+                  </div>
+                  <img src="/src/assets/images/icon-bulb.svg" class="timeline_title-icon" title="My Project">
+                </div>
+                <p class="timeline_text">
+                  ${journey.text}
+                </p>
+                <div class="timeline_image">
+                  <img src="${journey.image}"/>
+                  <img src="${journey.image}"/>
+                </div>
+              </div>
+              <div class="timeline-card">
+                <div class="timeline_title">
+                  ${journey.title}
+                </div>
+                <p class="timeline_text">
+                  ${journey.text}
+                </p>
+                <div class="timeline_image">
+                  <img src="${journey.image}"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        `)
+      
+      const fullHTML = `
+        <div class="year-selector">
+          <div class="year">2024</div>
+          <div class="year">2025</div>
+          <div class="year">2026</div>
+          <div class="year">2027</div>
+        </div>
+        <div class="page-wrapper">
+          <div class="section-timeline">
+            <div class="container">
+              <div class="timeline_component">
+                <div class="timeline-progress">
+                  <div class="timeline-progress-bar"></div>
+                </div>
+                ${journeysHTML}
+                <div class="overlay-fade-top"></div>
+                <div class="overlay-fade-bottom"></div>
+              </div>
+            </div>
+          <div style="height: 50vh;"></div>
+        </div>
+      `
+
+      this.contentEl.innerHTML = fullHTML;
+      
       popUp()
+
+    } catch (error) {
+        console.error('Failed to load projects', error);
+    }
+
+      
   }
 }
 
