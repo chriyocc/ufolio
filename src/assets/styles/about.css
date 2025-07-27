@@ -5,12 +5,99 @@
   flex-direction: column;
 }
 
+.profile-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  
+}
+
 .greet {
   color: var(--textPrimary);
   font-family: var(--fontSecondary);
   font-weight: 800;
   font-size: 120px;
-
 }
 
+.profile-pic {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background-color: var(--textPrimary);
+  margin-right: 50px;
+  flex-shrink: 0;
+}
 
+.my-status {
+  color: var(--textPrimary);
+  font-family: var(--fontSecondary);
+  font-size: 20px;
+  font-weight: 200;
+  padding-bottom: 20px;
+}
+
+.contact-container {
+  display: flex;
+  color: var(--textPrimary);
+  font-family: var(--fontSecondary);
+  font-weight: 300;
+  gap: 20px;
+  padding-bottom: 30px;
+}
+
+.contact-btn {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--textPrimary);
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 30px;
+  box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+
+  svg {
+    width: 30px;
+    fill: var(--textPrimary);
+  }
+}
+
+.contact-btn:hover {
+  color: black;
+  background-color: var(--textPrimary);
+  svg {
+    fill: black;
+  }
+}
+  
+.btn-name {
+  padding-left: 5px;
+}
+
+.meta-container {
+  color: var(--textPrimary);
+  font-family: var(--fontSecondary);
+}
+
+.meta-title {
+  font-weight: 700;
+  font-size: 50px;
+}
+
+.meta-description {
+  font-size: 20px;
+  font-weight: 300;
+  padding-bottom: 5px;
+}
+
+.meta-app {
+  padding-bottom: 15px;
+  align-items: center;
+}
+
+.meta-app img {
+  height: 50px;
+  padding-right: 10px;
+}

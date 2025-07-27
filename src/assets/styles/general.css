@@ -44,6 +44,7 @@ p {
 }
 
 .main-content {
+  margin-bottom: 30px;
   opacity: 1;
   transition: scale 0.2s ease-out, opacity 0.2s ease-out;
 }

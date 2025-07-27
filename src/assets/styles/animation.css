@@ -8,3 +8,12 @@
   opacity: 1;
   transform: none;
 }
+
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+.fade-in.page-in {
+  opacity: 1;
+}
