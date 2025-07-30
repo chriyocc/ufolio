@@ -27,6 +27,7 @@
   background-color: var(--textPrimary);
   margin-right: 50px;
   flex-shrink: 0;
+  display: none;
 }
 
 .my-status {
@@ -100,4 +101,26 @@
 .meta-app img {
   height: 50px;
   padding-right: 10px;
+}
+
+@media (max-width: 768px) {
+  .greet {
+    font-size: 100px;
+  }
+
+  .my-status {
+    font-size: 18px;
+  }
+
+  .contact-btn {
+    padding: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 30px;
+    font-size: 13px;
+  }
+
+  .contact-container {
+    justify-content: center;
+  }
 }
