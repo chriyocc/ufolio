@@ -98,7 +98,9 @@ function attachYearSelectorEvents() {
     if (yearButton) {
       document.querySelector('.year.active').classList.remove('active');
       yearButton.classList.add('active');
-      renderJourney(yearButton.innerHTML);
+      import('/src/main.js').then(({ router }) => {
+        router.navigate('journey', true, null, yearButton.innerHTML);
+      });
     }
   });
 }

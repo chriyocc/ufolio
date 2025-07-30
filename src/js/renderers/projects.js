@@ -51,7 +51,7 @@ function attachProjectEvents() {
       const id = project.dataset.projectId;
 
       import('/src/main.js').then(({ router }) => {
-        router.navigate('project', true, id);
+        router.navigate('project', true, id, null);
       });
     }
   });
