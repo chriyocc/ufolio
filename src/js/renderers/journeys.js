@@ -40,7 +40,7 @@ function buildJourneyHTML(journeys, year) {
           ${item.text}
         </p>
         <div class="timeline-row">
-          <div class="timeline_image">
+          <div class="timeline_image" loading="lazy">
             ${item.image_1}
             ${item.image_2}
           </div>

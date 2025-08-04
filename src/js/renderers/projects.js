@@ -19,7 +19,7 @@ export async function renderProjects() {
 function buildProjectsHTML(projects) {
   const projectsHTML = projects.map(project => `
     <div class="project-card pop-up" data-project-id="${project.id}">
-      <img class="thumbnail" src="${project.image}">
+      <img class="thumbnail" src="${project.image}" loading="lazy">
       <div class="project-info">
         <p class="project-date">${project.date}</p>
         <div class="project-title-bar">
