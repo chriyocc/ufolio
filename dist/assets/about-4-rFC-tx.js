@@ -1,0 +1,1 @@
+import{p as o}from"./animation-c2PSssWq.js";async function r(){const t=await fetch("/about.html");if(!t.ok)throw new Error(`HTTP ${t.status}`);const e=await t.text();document.getElementById("content-page").innerHTML=e,o()}export{r as renderAbout};

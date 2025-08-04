@@ -7,9 +7,9 @@
         "id": 1,
         "action": "popbox",
         "title": "U Do",
-        "type_icon1": "<img src='/src/assets/images/icon-bulb.svg' class='timeline_title-icon' title='My Project'>",
-        "image_1": "<img src='/src/assets/images/img-udo.png'>",
-        "image_2": "<img src='/src/assets/images/img-udo.png'>",
+        "type_icon1": "<img src='/images/icon-bulb.svg' class='timeline_title-icon' title='My Project'>",
+        "image_1": "<img src='/images/img-udo.png'>",
+        "image_2": "<img src='/images/img-udo.png'>",
         "text": "MacOS Application that allows you to show your TODO lists directly on menubar and cycles through each task at a set interval."
       },
     
@@ -18,7 +18,7 @@
         "action": "navigate",
         "title": "U Do",
         "type_icon1": "",
-        "image_1": "<img src='/src/assets/images/img-udo.png'>",
+        "image_1": "<img src='/images/img-udo.png'>",
         "image_2": "",
         "text": "MacOS Application that allows you to show your TODO lists directly on menubar and cycles through each task at a set interval."
       }
@@ -34,8 +34,8 @@
         "action": "popbox",
         "title": "Car",
         "type_icon1": "",
-        "image_1": "<img src='/src/assets/images/img-udo.png'>",
-        "image_2": "<img src='/src/assets/images/img-udo.png'>",
+        "image_1": "<img src='/images/img-udo.png'>",
+        "image_2": "<img src='/images/img-udo.png'>",
         "text": "MacOS Application that allows you to show your TODO lists directly on menubar and cycles through each task at a set interval."
       }
     ]

@@ -83,7 +83,7 @@ export class Router {
       };
     }
     return {
-      url: `/${route}`,
+      url: `/${route == 'projects' ? 'projects' : ''}`,
       stateData: { route }
     };
   }

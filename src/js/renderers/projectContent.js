@@ -3,7 +3,7 @@ import { popUp } from '../animation.js';
 
 export async function renderProjectContent(projectID) {
   try {
-    const response = await fetch(`/src/projects/${projectID}.md`);
+    const response = await fetch(`/projects/${projectID}.md`);
     console.log(response.headers.get('content-type'));//this will be 200(true) as we are using local files during this stage
     if (!response.ok) throw new Error('File not found');
 

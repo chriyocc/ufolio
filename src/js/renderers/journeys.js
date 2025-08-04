@@ -4,7 +4,7 @@ let currentYear = "2025";
 
 export async function renderJourney(selectedYear = null) {
   try {
-    const response = await fetch('/src/assets/views/journeys.json');
+    const response = await fetch('/journeys.json');
     if(!response.ok) throw new Error(`HTTP ${response.status}`);
     const journeys = await response.json();
 
@@ -45,7 +45,7 @@ function buildJourneyHTML(journeys, year) {
             ${item.image_2}
           </div>
           <div class="timeline_link_button">
-            <img src="/src/assets/images/icon-rightarrow.svg" class="timeline_link_icon" title="My Project">
+            <img src="/images/icon-rightarrow.svg" class="timeline_link_icon" title="My Project">
           </div>
         </div>
       </div>
