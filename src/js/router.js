@@ -71,8 +71,8 @@ export class Router {
 
     await this.executeRoute(route, projectID, currentYear);
     this.updateNavBar(route);
-    window.scrollTo(0, 0);
     setTimeout(() => {
+      window.scrollTo(0, 0);
       this.hideLoading();
     }, 1000);
 
