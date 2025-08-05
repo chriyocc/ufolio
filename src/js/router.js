@@ -108,7 +108,7 @@ export class Router {
   }
 
   needsLoading(route) {
-    if (route == 'projects' || route == 'journey') {
+    if (route == 'projects' || route == 'project' || route == 'journey') {
       return true;
     }
 
