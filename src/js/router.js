@@ -63,6 +63,8 @@ export class Router {
       this.showLoading();
     }
 
+    await this.delay(100);
+
     const { url, stateData } = this.buildRouteData(route, projectID, currentYear);
     
     if (pushState && prevRoute !== url) {
