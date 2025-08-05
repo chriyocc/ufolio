@@ -56,9 +56,8 @@ export class Router {
 
   async navigate(route, pushState = true, projectID = null, currentYear = '2025') {
     const prevRoute = window.location.pathname;
-    window.scrollTo(0, 0);
 
-    const needsLoading = this.needsLoading(route);
+    const needsLoading = this.needsLoading(route);   
 
     if (needsLoading) {
       this.showLoading();
@@ -72,6 +71,10 @@ export class Router {
 
     await this.executeRoute(route, projectID, currentYear);
     this.updateNavBar(route);
+    window.scrollTo(0, 0);
+    setTimeout(() => {
+      this.hideLoading();
+    }, 400);
 
   };
 
@@ -112,14 +115,13 @@ export class Router {
     return false;
   }
 
-  async showLoading() {
+  showLoading() {
     const pageLoader = document.getElementById('pageLoader');
     pageLoader.classList.remove('hidden');
-    
-    setTimeout(() => {
-      pageLoader.classList.add('hidden');
-    }, 500)
-    
+  }
+
+  hideLoading() {
+    pageLoader.classList.add('hidden');
   }
 
   updateNavBar(route) {
