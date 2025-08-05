@@ -58,6 +58,12 @@ export class Router {
     const prevRoute = window.location.pathname;
     window.scrollTo(0, 0);
 
+    const needsLoading = this.needsLoading(route);
+
+    if (needsLoading) {
+      this.showLoading();
+    }
+
     const { url, stateData } = this.buildRouteData(route, projectID, currentYear);
     
     if (pushState && prevRoute !== url) {
@@ -96,6 +102,24 @@ export class Router {
     } else {
       this.routes[route].call(this);
     }
+  }
+
+  needsLoading(route) {
+    if (route == 'projects' || route == 'journey') {
+      return true;
+    }
+
+    return false;
+  }
+
+  async showLoading() {
+    const pageLoader = document.getElementById('pageLoader');
+    pageLoader.classList.remove('hidden');
+    
+    setTimeout(() => {
+      pageLoader.classList.add('hidden');
+    }, 500)
+    
   }
 
   updateNavBar(route) {
