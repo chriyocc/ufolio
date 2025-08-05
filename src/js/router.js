@@ -74,7 +74,7 @@ export class Router {
     window.scrollTo(0, 0);
     setTimeout(() => {
       this.hideLoading();
-    }, 400);
+    }, 1000);
 
   };
 
