@@ -1,4 +1,5 @@
 import { popUp } from '../animation.js';
+import { router } from '../router.js';
 
 export async function renderProjects() {
   try {
@@ -49,10 +50,7 @@ function attachProjectEvents() {
     
     if (project) {
       const id = project.dataset.projectId;
-
-      import('/src/main.js').then(({ router }) => {
-        router.navigate('project', true, id, null);
-      });
+      router.navigate('project', true, id, null);
     }
   });
 }

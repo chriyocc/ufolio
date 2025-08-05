@@ -14,16 +14,14 @@
 .pop-box {
   display: flex;
   padding: 20px;
-  max-width: 600px;
+  max-width: 1000px;
   width: 90%;
   max-height: 80vh;
-  background: #232526; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to bottom, #37393b, #232526); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom, #37393b, #232526); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #2a2c2d; /* fallback for old browsers */
   border-radius: 20px;
   border: 1px solid rgba(142, 142, 142, 0.2);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  padding: 10px;
+  padding: 13px;
   flex-direction: column;
   flex-shrink: 0;
   box-sizing: border-box;
@@ -39,6 +37,9 @@
 }
 
 .pop-content {
+  padding: 20px;
+  padding-top: 0;
   color: var(--textPrimary); 
   font-family: var(--fontSecondary);
+  overflow-y: auto;
 }

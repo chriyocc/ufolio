@@ -1,7 +1,4 @@
-import { Router } from './js/router.js';
-
-//Initialize the Router
-export const router = new Router();
+import { router } from './js/router.js';
 
 // Add event listeners after DOM loads
 document.addEventListener('DOMContentLoaded', () => {

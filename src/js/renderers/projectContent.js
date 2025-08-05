@@ -1,5 +1,6 @@
 import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 import { popUp } from '../animation.js';
+import { router } from '../router.js';
 
 export async function renderProjectContent(projectID) {
   try {
@@ -24,8 +25,6 @@ export async function renderProjectContent(projectID) {
     popUp();
   } catch (err) {
     console.error(`Error loading file: ${err.message}`);
-    import('/src/main.js').then(({ router }) => {
-      router.navigate('projects');
-    });
+    router.navigate('projects');
   }
 }

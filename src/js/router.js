@@ -1,10 +1,15 @@
+import { renderAbout } from '/src/js/renderers/about.js';
+import { renderProjects } from '/src/js/renderers/projects.js';
+import { renderJourney } from '/src/js/renderers/journeys.js';
+import { renderProjectContent } from '/src/js/renderers/projectContent.js';
+
 export class Router {
   constructor() {
     this.routes = {
-      'about': () => import('/src/js/renderers/about.js').then(m => m.renderAbout()),
-      'projects': () => import('/src/js/renderers/projects.js').then(m => m.renderProjects()),
-      'journey': (year) => import('/src/js/renderers/journeys.js').then(m => m.renderJourney(year)),
-      'project': (id) => import('/src/js/renderers/projectContent.js').then(m => m.renderProjectContent(id))
+      'about': () => Promise.resolve(renderAbout()),
+      'projects': () => Promise.resolve(renderProjects()),
+      'journey': (year) => Promise.resolve(renderJourney(year)),
+      'project': (id) => Promise.resolve(renderProjectContent(id))
     };
     
     this.contentEl = document.getElementById('content-page');
@@ -63,21 +68,18 @@ export class Router {
       this.showLoading();
     }
 
-    await this.delay(100);
-
     const { url, stateData } = this.buildRouteData(route, projectID, currentYear);
     
     if (pushState && prevRoute !== url) {
       history.pushState(stateData, '', url);
     };
-
+    
     await this.executeRoute(route, projectID, currentYear);
     this.updateNavBar(route);
     window.scrollTo(0, 0);
     setTimeout(() => {
       this.hideLoading();
     }, 1000);
-
   };
 
   buildRouteData(route, projectID, currentYear) {
@@ -113,7 +115,6 @@ export class Router {
     if (route == 'projects' || route == 'project' || route == 'journey') {
       return true;
     }
-
     return false;
   }
 
@@ -137,3 +138,5 @@ export class Router {
     }
   }
 }
+
+export const router = new Router();

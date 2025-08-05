@@ -6,5 +6,5 @@ export async function renderAbout() {
   const html = await response.text();
   
   document.getElementById('content-page').innerHTML = html;
-  popUp()
+  popUp();
 };
