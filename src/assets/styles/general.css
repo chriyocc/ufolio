@@ -16,6 +16,10 @@ html {
   overflow-x: hidden;
 }
 
+html.no-scroll {
+  overflow: hidden;
+}
+
 ::-webkit-scrollbar {
     width: 0;  /* Remove scrollbar space */
     background: transparent;  /* make scrollbar invisible */

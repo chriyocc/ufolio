@@ -11,11 +11,11 @@ export async function popUp() {
   }
 
   setTimeout(() => {
-      items.forEach((item) => {
-        item.classList.remove('pop-up')
-        item.classList.remove('page-in')
-    }) 
-  }, 500)
+    items.forEach((item) => {
+      item.classList.remove('pop-up');
+      item.classList.remove('page-in');
+    })
+  }, 500);
 }
 
 export async function fadeIn() {
@@ -28,11 +28,10 @@ export async function fadeIn() {
     }, 100);
   });
 
-
   setTimeout(() => {
-    item.classList.remove('fade-in')
-    item.classList.remove('page-in')
-  }, 500)
+    item.classList.remove('fade-in');
+    item.classList.remove('page-in');
+  }, 500);
 }
 
 

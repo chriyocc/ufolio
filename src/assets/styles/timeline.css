@@ -80,7 +80,6 @@
 /* Timeline text elements */
 .timeline_date-text {
   color: var(--textPrimary);
-  font-style: italic;
   font-size: 40px;
   font-weight: 700;
   font-family: var(--fontSecondary);

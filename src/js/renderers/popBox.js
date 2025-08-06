@@ -1,10 +1,20 @@
+import { popUp } from "../animation";
+
 //pop_content must be in html format
 export function showPopBox(popContent) {
-  document.querySelector('.pop-overlay').style.display = 'flex';
+  const popUpWindow = document.querySelector('.pop-overlay');
+  const popUpContent = document.querySelector('.pop-content');
+  
+  popUpWindow.style.display = 'flex';
+  popUpWindow.classList.add('pop-up');  
+  popUpContent.scroll(0, 0);
 
+  document.querySelector('html').classList.add('no-scroll');  
   document.querySelector('.pop-content').innerHTML = popContent
+  popUp()
 
-  document.querySelector('.btn-close').addEventListener('click', async (e) => {
-    document.querySelector('.pop-overlay').style.display = 'none';
+  document.querySelector('.btn-close').addEventListener('click', async () => {
+    popUpWindow.style.display = 'none';
+    document.querySelector('html').classList.remove('no-scroll');  
   })
 };

@@ -16,6 +16,7 @@
       {
         "id": 2,
         "action": "navigate",
+        "navigateRoute": "/projects/1",
         "title": "U Do",
         "type_icon1": "",
         "image_1": "<img src='/images/img-udo.png'>",
