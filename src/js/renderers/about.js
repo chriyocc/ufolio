@@ -7,4 +7,5 @@ export async function renderAbout() {
   
   document.getElementById('content-page').innerHTML = html;
   popUp();
+  return true;
 };

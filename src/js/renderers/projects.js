@@ -1,17 +1,28 @@
 import { popUp } from '../animation.js';
 import { router } from '../router.js';
 
-export async function renderProjects() {
+export async function renderProjects(router) {
   try {
+  
+    if (router.cachedData.projects) {
+      document.getElementById('content-page').innerHTML = router.cachedData.projects;
+      popUp();
+      attachProjectEvents();
+      return true;
+    }
+
     const response = await fetch('/projects.json');
     if(!response.ok) throw new Error(`HTTP ${response.status}`);
     const projects = await response.json();
     
     const html = buildProjectsHTML(projects);
 
+    router.cachedData.projects = html;
     document.getElementById('content-page').innerHTML = html;
     popUp();
     attachProjectEvents();
+    return true;
+
   } catch(error) {
     console.error('Failed to load projects', error);
   }

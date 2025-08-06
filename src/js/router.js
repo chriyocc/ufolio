@@ -5,11 +5,12 @@ import { renderProjectContent } from '/src/js/renderers/projectContent.js';
 
 export class Router {
   constructor() {
+    this.cachedData = {};
     this.routes = {
-      'about': () => Promise.resolve(renderAbout()),
-      'projects': () => Promise.resolve(renderProjects()),
-      'journey': (year) => Promise.resolve(renderJourney(year)),
-      'project': (id) => Promise.resolve(renderProjectContent(id))
+      'about': () => Promise.resolve(renderAbout(this)),
+      'projects': () => Promise.resolve(renderProjects(this)),
+      'journey': (year) => Promise.resolve(renderJourney(year, this)),
+      'project': (id) => Promise.resolve(renderProjectContent(id, this))
     };
     
     this.contentEl = document.getElementById('content-page');
@@ -74,12 +75,15 @@ export class Router {
       history.pushState(stateData, '', url);
     };
     
-    await this.executeRoute(route, projectID, currentYear);
-    this.updateNavBar(route);
-    window.scrollTo(0, 0);
-    setTimeout(() => {
+    const loadSuccess = await this.executeRoute(route, projectID, currentYear);
+    
+    if (loadSuccess) {
+      window.scrollTo(0, 0);
       this.hideLoading();
-    }, 1000);
+    }
+
+    this.updateNavBar(route);
+
   };
 
   buildRouteData(route, projectID, currentYear) {
@@ -103,16 +107,16 @@ export class Router {
 
   async executeRoute(route, projectID, currentYear) {
     if (route == 'project') {
-      this.routes[route].call(this, projectID);
+      return await this.routes[route](projectID);
     } else if (route == 'journey') {
-      this.routes[route].call(this, currentYear);
+      return await this.routes[route](currentYear);
     } else {
-      this.routes[route].call(this);
+      return await this.routes[route]();
     }
   }
 
   needsLoading(route) {
-    if (route == 'projects' || route == 'project' || route == 'journey') {
+    if (route == 'projects' && !this.cachedData.projects) {
       return true;
     }
     return false;

@@ -4,7 +4,7 @@ import { router } from '../router.js';
 
 let currentYear = "2025";
 
-export async function renderJourney(selectedYear = null) {
+export async function renderJourney(selectedYear = null, router) {
   try {
     const response = await fetch('/journeys.json');
     if(!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -20,7 +20,8 @@ export async function renderJourney(selectedYear = null) {
     fadeIn();
     attachJourneyEvents();
     attachYearSelectorEvents();
-
+    return true;
+    
   } catch (error) {
       console.error('Failed to load projects', error);
   }

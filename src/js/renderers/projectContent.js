@@ -2,7 +2,7 @@ import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 import { popUp } from '../animation.js';
 import { router } from '../router.js';
 
-export async function renderProjectContent(projectID) {
+export async function renderProjectContent(projectID, router) {
   try {
     const response = await fetch(`/projects/${projectID}.md`);
     console.log(response.headers.get('content-type'));//this will be 200(true) as we are using local files during this stage
@@ -23,6 +23,7 @@ export async function renderProjectContent(projectID) {
     document.getElementById('content-page').innerHTML = fullHTML;
 
     popUp();
+    return true;
   } catch (err) {
     console.error(`Error loading file: ${err.message}`);
     router.navigate('projects');
