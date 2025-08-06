@@ -6,31 +6,39 @@ let currentYear = "2025";
 
 export async function renderJourney(selectedYear = null, router) {
   try {
-    const response = await fetch('/journeys.json');
+    if (router.cachedData.journey) {
+      document.getElementById('content-page').innerHTML = router.cachedData.journey;
+      fadeIn();
+      attachJourneyEvents();
+      attachYearSelectorEvents();
+      return true;
+    }
+    const response = await fetch('/journey.json');
     if(!response.ok) throw new Error(`HTTP ${response.status}`);
-    const journeys = await response.json();
+    const journey = await response.json();
 
     if (selectedYear) {
       currentYear = selectedYear
     };
 
-    const html = buildJourneyHTML(journeys, currentYear)
+    const html = buildJourneyHTML(journey, currentYear)
+    router.cachedData.journey = html;
     document.getElementById('content-page').innerHTML = html;
     
     fadeIn();
     attachJourneyEvents();
     attachYearSelectorEvents();
     return true;
-    
+
   } catch (error) {
       console.error('Failed to load projects', error);
   }
 }
 
-function buildJourneyHTML(journeys, year) {
-  const filteredJourneys = journeys.filter(journey => journey.year === year);
+function buildJourneyHTML(journey, year) {
+  const filteredJourney = journey.filter(journey => journey.year === year);
   
-  const journeysHTML = filteredJourneys.map(journey => {
+  const journeyHTML = filteredJourney.map(journey => {
     const dateContent = journey.dateContent.map(item => `
       <div class="timeline-card" data-journey-id="${item.id}" data-action="${item.action}">
         <div class="timeline_title-bar">
@@ -82,7 +90,7 @@ function buildJourneyHTML(journeys, year) {
               <div class="timeline-progress">
                 <div class="timeline-progress-bar"></div>
               </div>
-              ${journeysHTML}
+              ${journeyHTML}
               <div class="overlay-fade-top"></div>
               <div class="overlay-fade-bottom"></div>
             </div>

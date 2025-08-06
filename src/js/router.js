@@ -1,6 +1,6 @@
 import { renderAbout } from '/src/js/renderers/about.js';
 import { renderProjects } from '/src/js/renderers/projects.js';
-import { renderJourney } from '/src/js/renderers/journeys.js';
+import { renderJourney } from '/src/js/renderers/journey.js';
 import { renderProjectContent } from '/src/js/renderers/projectContent.js';
 
 export class Router {
@@ -79,7 +79,11 @@ export class Router {
     
     if (loadSuccess) {
       window.scrollTo(0, 0);
-      this.hideLoading();
+      setTimeout(() => {
+        this.hideLoading();
+      }, 100);
+    } else {
+      return;
     }
 
     this.updateNavBar(route);
@@ -117,6 +121,12 @@ export class Router {
 
   needsLoading(route) {
     if (route == 'projects' && !this.cachedData.projects) {
+      return true;
+    }
+    if (route == 'journey' && !this.cachedData.journey) {
+      return true;
+    }
+    if (route == 'project') {
       return true;
     }
     return false;
