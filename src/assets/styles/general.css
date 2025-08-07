@@ -68,6 +68,12 @@ body {
 
 a {
   cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+a:visited {
+  color: inherit;
 }
 
 p {
@@ -94,13 +100,12 @@ p {
   align-items: center;
 }
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   :root {
-  --bgColor: rgb(222,222,222);
-  --textPrimary: rgb(76, 76, 76);
+  --bgColor: rgb(255, 255, 255);
+  --textPrimary: rgb(56, 56, 56);
   }
-
-}
+} */
 
 @media (max-width: 768px) {
   

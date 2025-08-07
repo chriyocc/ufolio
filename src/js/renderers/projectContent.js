@@ -1,6 +1,7 @@
 import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 import { popUp } from '../animation.js';
 import { router } from '../router.js';
+import { showFeedback } from './feedbackBox.js';
 
 export async function renderProjectContent(projectID, router) {
   try {
@@ -26,6 +27,7 @@ export async function renderProjectContent(projectID, router) {
     return true;
   } catch (err) {
     console.error(`Error loading file: ${err.message}`);
-    router.navigate('project');
+    showFeedback('error', 'Error loading file')
+    router.navigate('projects');
   }
 }

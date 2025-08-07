@@ -1,5 +1,6 @@
 import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 import { router } from '../router.js';
+import { showFeedback } from './feedbackBox.js';
 
 export async function renderJourneyContent(journeyID, router) {
   try {
@@ -17,7 +18,8 @@ export async function renderJourneyContent(journeyID, router) {
     const fullHTML = htmlContent;
     return fullHTML;
   } catch (err) {
-    console.error(`Error loading file: ${err.message}`);
+    console.error(`Error loading: ${err.message}`);
+    showFeedback('error', 'Error loading journey')
     router.navigate('journey');
   }
 }

@@ -42,18 +42,16 @@
 
 .nav-item:hover {
   background: rgba(255, 255, 255, 0.2);
-  color: white;
   transform: scale(1.1);
 }
 
-.nav-item img {
+.nav-item svg {
   width: 30px;
   height:30px;
 }
 
 .nav-item.active {
   background: rgba(255, 255, 255, 0.3);
-  color: white;
 }
 
 .nav-container:active {

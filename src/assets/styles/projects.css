@@ -90,7 +90,7 @@
 }
 
 
-@media (max-width: 1458px) {
+@media (max-width: 1439px) {
   .project-container {
     grid-template-columns: 1fr 1fr 1fr ;
   }
@@ -100,9 +100,10 @@
   .project-container {
     grid-template-columns: 1fr 1fr ;
   }
+
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   /* .project-container {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   } */
@@ -121,10 +122,10 @@
   }
 }
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   .project-card {
-    background: #DCDDE0; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to bottom, #F3F5F6, #DCDDE0); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to bottom, #F3F5F6, #DCDDE0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #DCDDE0;
+    background: -webkit-linear-gradient(to bottom, #F3F5F6, #DCDDE0);
+    background: linear-gradient(to bottom, #F3F5F6, #DCDDE0); 
   }
-}
+} */

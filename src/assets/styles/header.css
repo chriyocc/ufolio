@@ -16,3 +16,9 @@
   fill: white;
   object-fit: contain;
 }
+
+@media (prefers-color-scheme: light) {
+  .icon-jun {
+    fill: var(--textPrimary);
+  }
+}

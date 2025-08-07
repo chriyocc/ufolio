@@ -43,3 +43,46 @@
   font-family: var(--fontSecondary);
   overflow-y: auto;
 }
+
+.email-container {
+  display: flex;
+  border: 1px solid rgba(200, 200, 200, 0.496);
+  border-radius: 20px;
+  padding: 10px;
+  padding-left: 15px;
+  box-sizing: border-box;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.email-address {
+    color: rgb(200, 200, 200); ;
+    font-size: 16px;
+    font-family: 'SF Mono', Monaco, 'JetBrains Mono', monospace;
+    word-break: break-all;
+    line-height: 1.5;
+}
+
+.copy-btn {
+  display: flex;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  svg {
+    width: 25px;
+    height: 25px;
+  }
+  transition: all 0.2s ease;
+}
+
+.copy-btn:hover {
+  background-color: rgba(128, 128, 128, 0.333);
+}
+
+.copy-btn:active {
+  background-color: rgba(128, 128, 128, 0.622);
+}

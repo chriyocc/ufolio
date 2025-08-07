@@ -1,5 +1,6 @@
 import { popUp } from '../animation.js';
 import { router } from '../router.js';
+import { showFeedback } from './feedbackBox.js';
 
 export async function renderProjects(router) {
   try {
@@ -25,6 +26,7 @@ export async function renderProjects(router) {
 
   } catch(error) {
     console.error('Failed to load projects', error);
+    showFeedback('error', 'Failed to load projects')
   }
 }
 

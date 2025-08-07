@@ -1,0 +1,44 @@
+.feedback-overlay {
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin-top: 20px;
+  position: fixed;
+  justify-content: center;
+  z-index: 2001;
+  top: -80px;
+  transition: all 0.3s ease-in-out;
+}
+
+.feedback-overlay.active {
+  top: 0;
+}
+
+.feedback-icon {
+  height: 24px;
+  margin-left: 3px;
+  margin-right: 2px;
+}
+
+.feedback-box {
+  display: flex;
+  min-width: 100px;
+  max-width: 300px;
+  background: #414446; /* fallback for old browsers */
+  border-radius: 30px;
+  border: 1px solid rgba(142, 142, 142, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  flex-direction: row;
+  flex-shrink: 0;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.feedback-content {
+  color: var(--textPrimary); 
+  font-family: var(--fontSecondary);
+  margin-right: 5px;
+}

@@ -2,8 +2,9 @@ import { fadeIn } from '../animation.js';
 import { showPopBox } from './popBox.js';
 import { router } from '../router.js';
 import { renderJourneyContent } from './journeyContent.js';
+import { showFeedback } from './feedbackBox.js';
 
-let currentYear = "2025";
+let currentYear;
 
 export async function renderJourney(selectedYear = null, router) {
   try {
@@ -32,7 +33,8 @@ export async function renderJourney(selectedYear = null, router) {
     return true;
 
   } catch (error) {
-      console.error('Failed to load projects', error);
+    console.error('Failed to load journey', error);
+    showFeedback('error', 'Failed to load journey')
   }
 }
 

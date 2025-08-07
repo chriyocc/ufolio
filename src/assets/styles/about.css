@@ -109,7 +109,7 @@
   }
 
   .my-status {
-    font-size: 18px;
+    font-size: 15px;
   }
 
   .contact-btn {
@@ -117,10 +117,15 @@
     padding-left: 8px;
     padding-right: 8px;
     border-radius: 30px;
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .contact-container {
     justify-content: center;
+    gap: 10px;
+  }
+
+  .meta-app img {
+    height: 40px;
   }
 }
