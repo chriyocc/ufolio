@@ -26,7 +26,8 @@ export async function renderJourney(selectedYear = null, router) {
     const html = buildJourneyHTML(journey, currentYear)
     
     router.cachedData.journey[currentYear] = html;
-    
+
+    document.querySelector('html').classList.remove('no-scroll'); //To prevent residual elements
     document.getElementById('content-page').innerHTML = html;
     
     fadeIn();
@@ -44,42 +45,64 @@ function buildJourneyHTML(journey, year) {
   const filteredJourney = journey.filter(journey => journey.year === year);
   
   const journeyHTML = filteredJourney.map(journey => {
-    const dateContent = journey.dateContent.map(item => `
-      <div class="timeline-card" data-journey-id="${item.id}" data-action="${item.action}" data-link="${item.link}">
-        <div class="timeline_title-bar">
-          <div class="timeline_title">
-            ${item.title}
-          </div>
-          ${item.type_icon1}
-        </div>
-        <p class="timeline_text">${item.text}</p>
+    const dateContent = journey.dateContent.map(item => {
+      const img1 = document.createElement("img");
+      const img2 = document.createElement("img");
+      const imageContainer = document.createElement("div");
+      
+      // Create first image
+      if (item.image_1) {
+        img1.src = item.image_1;
+        img1.alt = item.title;
+        img1.loading = "lazy";
+        imageContainer.appendChild(img1);
+      }
 
-        <div class="timeline-row">
-          <div class="timeline_image" loading="lazy">
-            ${item.image_1}
-            ${item.image_2}
+      // Create second image (if it exists)
+      if (item.image_2) {
+        img2.src = item.image_2;
+        img2.alt = item.title;
+        img2.loading = "lazy";
+        imageContainer.appendChild(img2);
+      }
+
+      // Wrap images in a container
+      imageContainer.className = "timeline_image";
+      
+      return `
+          <div class="timeline-card" data-journey-id="${item.id}" data-action="${item.action}" data-link="${item.link}">
+            <div class="timeline_title-bar">
+              <div class="timeline_title">
+                ${item.title}
+              </div>
+              ${item.type_icon1}
+            </div>
+            <p class="timeline_text">${item.text}</p>
+
+            <div class="timeline-row">
+              ${imageContainer.outerHTML}
+              <div class="timeline_link_button ${item.action === '' ? 'hidden' : item.action}">
+                <img src="/images/icon-rightarrow.svg" class="timeline_link_icon" title="My Project">
+              </div>
+            </div>
           </div>
-          <div class="timeline_link_button ${item.action === '' ? 'hidden' : item.action}">
-            <img src="/images/icon-rightarrow.svg" class="timeline_link_icon" title="My Project">
-          </div>
-        </div>
-      </div>
-    `).join('');
+        `;
+      }).join('');
 
     return `
-      <div class="timeline_item">
-        <div class="timeline_left">
-          <div class="timeline_date-text">${journey.month} ${journey.year}</div>
+        <div class="timeline_item">
+          <div class="timeline_left">
+            <div class="timeline_date-text">${journey.month} ${journey.year}</div>
+          </div>
+          <div class="timeline_centre">
+            <div class="timeline_circle"></div>
+          </div>
+          <div class="timeline_right">
+            ${dateContent}
+          </div>
         </div>
-        <div class="timeline_centre">
-          <div class="timeline_circle"></div>
-        </div>
-        <div class="timeline_right">
-          ${dateContent}
-        </div>
-      </div>
-    `;
-  }).join('');
+      `;
+    }).join('');
 
   return `
     <div class="fade-in">

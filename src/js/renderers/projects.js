@@ -31,22 +31,33 @@ export async function renderProjects(router) {
 }
 
 function buildProjectsHTML(projects) {
-  const projectsHTML = projects.map(project => `
-    <div class="project-card pop-up" data-project-id="${project.id}">
-      <img class="thumbnail" src="${project.image}" loading="lazy">
-      <div class="project-info">
-        <p class="project-date">${project.date}</p>
-        <div class="project-title-bar">
-          <p class="project-title">${project.title}</p>
-          <div class="logo-container">
-            ${project.tool_icon1}
-            ${project.tool_icon2}
+  const projectsHTML = projects.map(project => {
+    const projectImg = document.createElement("img");
+
+    if (project.image) {
+      projectImg.src = project.image;
+      projectImg.title = project.title;
+      projectImg.loading = 'lazy';
+      projectImg.classList.add("thumbnail");
+    }
+    
+    return `
+        <div class="project-card pop-up" data-project-id="${project.id}">
+          ${projectImg.outerHTML}
+          <div class="project-info">
+            <p class="project-date">${project.date}</p>
+            <div class="project-title-bar">
+              <p class="project-title">${project.title}</p>
+              <div class="logo-container">
+                ${project.tool_icon1}
+                ${project.tool_icon2}
+              </div>
+            </div>
+            <p class="project-description">${project.description}</p>
           </div>
         </div>
-        <p class="project-description">${project.description}</p>
-      </div>
-    </div>
-  `).join('');
+      `}).join('');
+    
 
   return `
     <div class="page-wrapper">
