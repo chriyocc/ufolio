@@ -3,6 +3,7 @@ import { showPopBox } from './popBox.js';
 import { router } from '../router.js';
 import { renderJourneyContent } from './journeyContent.js';
 import { showFeedback } from './feedbackBox.js';
+import { showImg } from './showIMG.js';
 
 let currentYear;
 
@@ -23,6 +24,7 @@ export async function renderJourney(selectedYear = null, router) {
     const journey = await response.json();
 
     const html = buildJourneyHTML(journey, currentYear)
+    
     router.cachedData.journey[currentYear] = html;
     
     document.getElementById('content-page').innerHTML = html;
@@ -43,22 +45,21 @@ function buildJourneyHTML(journey, year) {
   
   const journeyHTML = filteredJourney.map(journey => {
     const dateContent = journey.dateContent.map(item => `
-      <div class="timeline-card" data-journey-id="${item.id}" data-action="${item.action}">
+      <div class="timeline-card" data-journey-id="${item.id}" data-action="${item.action}" data-link="${item.link}">
         <div class="timeline_title-bar">
           <div class="timeline_title">
             ${item.title}
           </div>
           ${item.type_icon1}
         </div>
-        <p class="timeline_text">
-          ${item.text}
-        </p>
+        <p class="timeline_text">${item.text}</p>
+
         <div class="timeline-row">
           <div class="timeline_image" loading="lazy">
             ${item.image_1}
             ${item.image_2}
           </div>
-          <div class="timeline_link_button">
+          <div class="timeline_link_button ${item.action === '' ? 'hidden' : item.action}">
             <img src="/images/icon-rightarrow.svg" class="timeline_link_icon" title="My Project">
           </div>
         </div>
@@ -120,27 +121,56 @@ function attachYearSelectorEvents() {
 async function attachJourneyEvents() {
   document.querySelector('.timeline_component').addEventListener('click', async (e) => {
     const linkButton = e.target.closest('.timeline_link_button');
+    const imgEl = e.target.closest('.timeline_image img');
+
+
+    if (imgEl) {
+      showImg(imgEl.getAttribute('src'))
+    }
     
     if (linkButton) {
       const journey = linkButton.closest('.timeline-card');
       const action = journey.dataset.action;
-      const route = journey.dataset.navigatePath;
       const journeyID = journey.dataset.journeyId;
+      const link = journey.dataset.link;
 
       switch (action) {
         case 'popbox':
-          const fullHTML = await renderJourneyContent(journeyID);
-          showPopBox(fullHTML);
+          try {
+            const fullHTML = await renderJourneyContent(journeyID);
+            showPopBox(fullHTML);
+          } catch (err) {
+            console.error('Popbox error:', err);
+            showFeedback('error', 'Error');
+          }
           break;
         
         case 'navigate':
-          window.location.href = `/projects/${journeyID}`;
+          try {
+            if (!journeyID) throw new Error('Missing journeyID');
+            window.location.href = `/projects/${journeyID}`;
+          } catch (err) {
+            console.error('Navigation error:', err);
+            showFeedback('error', 'Error');
+          }
+          break;
+        
+        case 'link':
+          try {
+            if (!link) throw new Error('Missing link URL');
+            window.open(link, '_blank');
+          } catch (err) {
+            console.error('Link error:', err);
+            showFeedback('error', 'Error');
+          }
           break;
         
         default:
+          showFeedback('error', 'Error')
           console.warn(`Unknown action: ${action}`);
       }
     }
   });
+
 }
 

@@ -59,6 +59,7 @@
   padding-bottom: 80px;
   display: grid;
   position: relative;
+  width: 100%;
 }
 
 .timeline_item:nth-child(2) {
@@ -195,6 +196,10 @@
   transition: filter 0.2s ease-in-out;
 }
 
+.timeline_link_button.hidden {
+  display: none;
+}
+
 .timeline_link_icon {
   width: 24px;
   height: 24px;
@@ -257,6 +262,10 @@
 
   .timeline-card {
     margin-bottom: 20px;
+  }
+
+  .timeline_image {
+    cursor: default;
   }
 
   .timeline-progress {

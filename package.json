@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "browser-sync": "^3.0.4",
+    "dompurify": "^3.2.6",
     "ejs": "^3.1.10",
     "marked": "^16.1.1"
   }

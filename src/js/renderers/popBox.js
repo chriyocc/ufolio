@@ -1,22 +1,27 @@
 import { popUp } from "../animation";
+import DOMPurify from 'dompurify';
+
 
 //pop_content must be in html format
 export function showPopBox(popContent) {
   const popUpWindow = document.querySelector('.pop-overlay');
   const popUpContent = document.querySelector('.pop-content');
+  const closeBtn = document.querySelector('.pop-box .btn-close');
+
+  if (!popUpWindow || !popUpContent) return;
 
   popUpWindow.style.display = 'flex';
   popUpWindow.classList.add('pop-up');  
   popUpContent.scroll(0, 0);
 
   document.querySelector('html').classList.add('no-scroll');  
-  document.querySelector('.pop-content').innerHTML = popContent
-  popUp()
+  popUpContent.innerHTML = DOMPurify.sanitize(popContent); //To prevent XSS
+  popUp();
 
-  document.querySelector('.btn-close').addEventListener('click', async () => {
+  closeBtn.onclick = () => {
     popUpWindow.style.display = 'none';
-    document.querySelector('html').classList.remove('no-scroll');  
-    document.querySelector('.pop-box').style.width = '90%';
-    document.querySelector('.pop-box').style.maxWidth = '1000px';
-  })
+    html.classList.remove('no-scroll');
+    popBox.style.width = '90%';
+    popBox.style.maxWidth = '1000px';
+  };
 };
