@@ -6,6 +6,7 @@ import DOMPurify from 'dompurify';
 export function showPopBox(popContent) {
   const popUpWindow = document.querySelector('.pop-overlay');
   const popUpContent = document.querySelector('.pop-content');
+  const popBox = document.querySelector('.pop-box');
   const closeBtn = document.querySelector('.pop-box .btn-close');
   const html = document.querySelector('html');
 
@@ -20,9 +21,9 @@ export function showPopBox(popContent) {
   popUp();
 
   closeBtn.onclick = () => {
-    popUpWindow.style.display = 'none';
     html.classList.remove('no-scroll');
     popBox.style.width = '90%';
     popBox.style.maxWidth = '1000px';
+    popUpWindow.style.display = 'none';
   };
 };

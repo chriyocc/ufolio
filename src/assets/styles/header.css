@@ -17,6 +17,13 @@
   object-fit: contain;
 }
 
+@media (max-width: 768px) {
+  .icon-jun {
+    width: 80px;
+    height: 80px;
+  }
+}
+
 @media (prefers-color-scheme: light) {
   .icon-jun {
     fill: var(--textPrimary);
