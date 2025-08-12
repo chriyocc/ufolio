@@ -58,3 +58,19 @@
   transform: translateY(3px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
 }
+
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 10px 17px;
+    gap: 17px;
+  }
+
+  .nav-item {
+    padding: 8px;
+  }
+
+  .nav-item svg {
+  width: 27px;
+  height:27px;
+}
+}
