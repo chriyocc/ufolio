@@ -62,7 +62,6 @@ export class Router {
 
   async navigate(route, pushState = true, projectID = null, currentYear = '2025') {
     const prevRoute = window.location.pathname;
-
     const needsLoading = this.needsLoading(route);   
 
     if (needsLoading) {
