@@ -1,5 +1,4 @@
 import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
-import { router } from '../router.js';
 import { showFeedback } from './feedbackBox.js';
 
 export async function renderJourneyContent(journeyID, router) {
