@@ -52,10 +52,35 @@
         "id": 13251615,
         "action": "",
         "title": "Try to learn more on backend",
-        "type_icon1": "<img src='/images/icon-book.svg' class='timeline_title-icon' title='My Project'>",
+        "type_icon1": "<img src='/images/icon-book.svg' class='timeline_title-icon' title='Learn'>",
         "image_1": "",
         "image_2": "",
         "text": "Starting to learn more on backend development like AJAX, NodeJS, SQL. Hoping to wrap it all up by the end of the year!"
+      },
+
+      {
+        "id": 1,
+        "action": "",
+        "title": "Second Year of Degree Sem 1",
+        "type_icon1": "",
+        "image_1": "",
+        "image_2": "",
+        "text": "Time flies, already in the second year of my degree."
+      }
+    ]
+  },
+
+  {
+    "month": "September",
+    "dateContent": [
+      {
+        "id": "zigcheck",
+        "action": "popbox",
+        "title": "ZigCheck",
+        "type_icon1": "<img src='/images/icon-battle.svg' class='timeline_title-icon' title='Competition'>",
+        "image_1": "https://res.cloudinary.com/dlaqeohvw/image/upload/v1758203968/img-zigcheck_logo_afsu0j.png",
+        "image_2": "https://res.cloudinary.com/dlaqeohvw/image/upload/v1758204050/img-zigcheck_2_l3oq5y.png",
+        "text": "Participated in CodeNection2025 competition but was eliminated in the preliminary round. My team and I developed a web application that helps validates vehicle information quickly and accurately. Good Experience!"
       }
     ]
   }
