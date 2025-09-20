@@ -19,7 +19,7 @@ export async function renderJourney(selectedYear = null, router) {
       return true;
     }
 
-    const response = await fetch(`/journey_${currentYear}.json`);
+    const response = await fetch(`/journey.json`);
     if(!response.ok) throw new Error(`HTTP ${response.status}`);
     const journey = await response.json();
 
@@ -42,7 +42,9 @@ export async function renderJourney(selectedYear = null, router) {
 }
 
 function buildJourneyHTML(journey, year) {
-  const journeyHTML = journey.map(journey => {
+  const filteredJourney = journey.filter(journey => journey.year === year);
+  
+  const journeyHTML = filteredJourney.map(journey => {
     const dateContent = journey.dateContent.map(item => {
       const img1 = document.createElement("img");
       const img2 = document.createElement("img");
@@ -90,7 +92,7 @@ function buildJourneyHTML(journey, year) {
     return `
         <div class="timeline_item">
           <div class="timeline_left">
-            <div class="timeline_date-text">${journey.month} ${year}</div>
+            <div class="timeline_date-text">${journey.month} ${journey.year}</div>
           </div>
           <div class="timeline_centre">
             <div class="timeline_circle"></div>
