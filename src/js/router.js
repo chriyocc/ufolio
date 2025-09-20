@@ -10,7 +10,7 @@ export class Router {
       'about': () => Promise.resolve(renderAbout(this)),
       'projects': () => Promise.resolve(renderProjects(this)),
       'journey': (year) => Promise.resolve(renderJourney(year, this)),
-      'project': (id) => Promise.resolve(renderProjectContent(id, this))
+      'project': (id) => Promise.resolve(renderProjectContent(slug, this))
     };
     
     this.contentEl = document.getElementById('content-page');
@@ -19,17 +19,17 @@ export class Router {
     window.addEventListener('popstate', (e) => {
       if (e.state) {
         // Use the state from history
-        const { route, projectID, currentYear} = e.state;
-        this.navigate(route, false, projectID, currentYear); // DON'T push to history again
+        const { route, projectSlug, currentYear} = e.state;
+        this.navigate(route, false, projectSlug, currentYear); // DON'T push to history again
       } else {
         // No state means initial page load or manual URL entry
         const routeInfo = this.getRouteFromUrl();
-        this.navigate(routeInfo.route, false, routeInfo.projectID, routeInfo.currentYear);
+        this.navigate(routeInfo.route, false, routeInfo.projectSlug, routeInfo.currentYear);
       }
     });
     
     const initRoute = this.getRouteFromUrl()
-    this.navigate(initRoute.route, true, initRoute.projectID, initRoute.currentYear);
+    this.navigate(initRoute.route, true, initRoute.projectSlug, initRoute.currentYear);
     
   }
 
@@ -38,11 +38,11 @@ export class Router {
     const path = window.location.pathname.split('/').filter(segment => segment);
     
     if (path.length === 0) {
-      return { route: 'about', projectID: null };
+      return { route: 'about', projectSlug: null };
     };
     
     if (path[0] == 'projects' && path[1]) {
-      return { route: 'project', projectID: path[1] }
+      return { route: 'project', projectSlug: path[1] }
     };
 
     if (path[0] == 'journey' && path[1] === '2024' || path[1] === '2025') {
@@ -55,12 +55,12 @@ export class Router {
 
     return {
       route: this.routes[path[0]] ? path[0] : 'about',
-      projectID: null,
+      projectSlug: null,
       currentYear: null
     };
   }
 
-  async navigate(route, pushState = true, projectID = null, currentYear = '2025') {
+  async navigate(route, pushState = true, projectSlug = null, currentYear = '2025') {
     const prevRoute = window.location.pathname;
     const needsLoading = this.needsLoading(route);   
 
@@ -68,13 +68,13 @@ export class Router {
       this.showLoading();
     }
 
-    const { url, stateData } = this.buildRouteData(route, projectID, currentYear);
+    const { url, stateData } = this.buildRouteData(route, projectSlug, currentYear);
     
     if (pushState && prevRoute !== url) {
       history.pushState(stateData, '', url);
     };
     
-    const loadSuccess = await this.executeRoute(route, projectID, currentYear);
+    const loadSuccess = await this.executeRoute(route, projectSlug, currentYear);
     
     if (loadSuccess) {
       window.scrollTo(0, 0);
@@ -89,11 +89,11 @@ export class Router {
 
   };
 
-  buildRouteData(route, projectID, currentYear) {
-    if (route == 'project' && projectID) {
+  buildRouteData(route, projectSlug, currentYear) {
+    if (route == 'project' && projectSlug) {
       return {
-        url: `/projects/${projectID}`,
-        stateData: { route, projectID }
+        url: `/projects/${projectSlug}`,
+        stateData: { route, projectSlug }
       };
     }
     if (route == 'journey' && currentYear) {
@@ -108,9 +108,9 @@ export class Router {
     };
   }
 
-  async executeRoute(route, projectID, currentYear) {
+  async executeRoute(route, projectSlug, currentYear) {
     if (route == 'project') {
-      return await this.routes[route](projectID);
+      return await this.routes[route](projectSlug);
     } else if (route == 'journey') {
       return await this.routes[route](currentYear);
     } else {

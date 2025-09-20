@@ -73,8 +73,8 @@ function attachProjectEvents() {
     const project = e.target.closest('.project-card')
     
     if (project) {
-      const id = project.dataset.projectId;
-      router.navigate('project', true, id, null);
+      const slug = project.dataset.projectSlug;
+      router.navigate('project', true, slug, null);
     }
   });
 }

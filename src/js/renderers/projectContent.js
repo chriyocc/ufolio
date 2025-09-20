@@ -1,11 +1,10 @@
 import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 import { popUp } from '../animation.js';
-import { router } from '../router.js';
 import { showFeedback } from './feedbackBox.js';
 
-export async function renderProjectContent(projectID, router) {
+export async function renderProjectContent(projectSlug, router) {
   try {
-    const response = await fetch(`/projectContent/${projectID}.md`);
+    const response = await fetch(`/projectContent/${projectSlug}.md`);
     console.log(response.headers.get('content-type'));//this will be 200(true) as we are using local files during this stage
     if (!response.ok) throw new Error('File not found');
 
