@@ -1,8 +1,7 @@
-import api from '/src/api/axios.js';
 import { popUp } from '../animation.js';
 import { router } from '../router.js';
 import { showFeedback } from './feedbackBox.js';
-
+import supabase from '../../api/supabase.js';
 
 export async function renderProjects(router) {
   try {
@@ -14,8 +13,13 @@ export async function renderProjects(router) {
       return true;
     }
 
-    const response = await api.get('/projects');
-    const projects = response.data;
+    const { data: projects, error } = await supabase
+      .from('projects')
+      .select('*')
+
+    if (error) {
+      throw error;
+    }
 
     const html = buildProjectsHTML(projects);
 

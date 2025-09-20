@@ -1,12 +1,20 @@
-import api from '/src/api/axios.js';
 import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 import { popUp } from '../animation.js';
 import { showFeedback } from './feedbackBox.js';
+import supabase from '../../api/supabase.js';
 
 export async function renderProjectContent(projectSlug, router) {
   try {
-    const response = await api.get(`/projects/${projectSlug}`);
-    const project = response.data;
+    const { data: project, error } = await supabase
+      .from('projects')
+      .select('*')
+      .eq('slug', `${projectSlug}`)
+      .single(); // ensure only one row is returned
+    
+    if (error) {
+      throw error;
+    }
+    
     const markdownText = project.markdown_content;
     
     if (!markdownText || markdownText === '') {

@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@cloudinary/url-gen": "^1.21.0",
+    "@supabase/supabase-js": "^2.57.4",
     "axios": "^1.12.2",
     "browser-sync": "^3.0.4",
     "dompurify": "^3.2.6",
