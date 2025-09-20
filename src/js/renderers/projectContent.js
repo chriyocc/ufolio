@@ -5,23 +5,17 @@ import { showFeedback } from './feedbackBox.js';
 
 export async function renderProjectContent(projectSlug, router) {
   try {
-    const response = await api.get('/projects');
-    const projects = response.data;
-    let markdownText = '';
-
-    const matchedProject = projects.find(proj => proj.slug === projectSlug);
-    if (matchedProject) {
-      markdownText = matchedProject.markdown_content;
-      if (!markdownText || markdownText === '') {
-        throw new Error(`No markdown content found for project with slug "${projectSlug}"`);
-      }
-    } else {
-      throw new Error(`Project with slug "${projectSlug}" not found`);
+    const response = await api.get(`/projects/${projectSlug}`);
+    const project = response.data;
+    const markdownText = project.markdown_content;
+    
+    if (!markdownText || markdownText === '') {
+      throw new Error(`No markdown content found for project with slug "${projectSlug}"`);
     }
 
     if (markdownText.includes('<!DOCTYPE html>')) {
       throw new Error('File not found - received HTML instead of markdown');
-    }//this is unnecessary after deploy
+    }
 
     const htmlContent = marked.parse(markdownText);
     const fullHTML = `
