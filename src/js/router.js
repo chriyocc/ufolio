@@ -10,7 +10,7 @@ export class Router {
       'about': () => Promise.resolve(renderAbout(this)),
       'projects': () => Promise.resolve(renderProjects(this)),
       'journey': (year) => Promise.resolve(renderJourney(year, this)),
-      'project': (id) => Promise.resolve(renderProjectContent(slug, this))
+      'project': (slug) => Promise.resolve(renderProjectContent(slug, this))
     };
     
     this.contentEl = document.getElementById('content-page');
