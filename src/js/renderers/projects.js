@@ -1,6 +1,8 @@
+import api from '/src/api/axios.js';
 import { popUp } from '../animation.js';
 import { router } from '../router.js';
 import { showFeedback } from './feedbackBox.js';
+
 
 export async function renderProjects(router) {
   try {
@@ -12,10 +14,9 @@ export async function renderProjects(router) {
       return true;
     }
 
-    const response = await fetch('/projects.json');
-    if(!response.ok) throw new Error(`HTTP ${response.status}`);
-    const projects = await response.json();
-    
+    const response = await api.get('/projects');
+    const projects = response.data;
+
     const html = buildProjectsHTML(projects);
 
     router.cachedData.projects = html;
@@ -24,7 +25,16 @@ export async function renderProjects(router) {
     attachProjectEvents();
     return true;
 
-  } catch(error) {
+  } catch (error) {
+    if (error.response) {
+      // Server responded with a status outside 2xx
+      console.error('HTTP error', error.response.status);
+    } else if (error.request) {
+      // Request was made but no response received
+      console.error('No response received', error.request);
+    } else {
+      console.error('Error', error.message);
+    }
     console.error('Failed to load projects', error);
     showFeedback('error', 'Failed to load projects')
   }
@@ -42,7 +52,7 @@ function buildProjectsHTML(projects) {
     }
     
     return `
-        <div class="project-card pop-up" data-project-id="${project.id}">
+        <div class="project-card pop-up" data-project-slug="${project.slug}" data-project-id="${project.id}">
           ${projectImg.outerHTML}
           <div class="project-info">
             <p class="project-date">${project.date}</p>

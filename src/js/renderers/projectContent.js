@@ -1,14 +1,23 @@
+import api from '/src/api/axios.js';
 import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 import { popUp } from '../animation.js';
 import { showFeedback } from './feedbackBox.js';
 
 export async function renderProjectContent(projectSlug, router) {
   try {
-    const response = await fetch(`/projectContent/${projectSlug}.md`);
-    console.log(response.headers.get('content-type'));//this will be 200(true) as we are using local files during this stage
-    if (!response.ok) throw new Error('File not found');
+    const response = await api.get('/projects');
+    const projects = response.data;
+    let markdownText = '';
 
-    const markdownText = await response.text();
+    const matchedProject = projects.find(proj => proj.slug === projectSlug);
+    if (matchedProject) {
+      markdownText = matchedProject.markdown_content;
+      if (!markdownText || markdownText === '') {
+        throw new Error(`No markdown content found for project with slug "${projectSlug}"`);
+      }
+    } else {
+      throw new Error(`Project with slug "${projectSlug}" not found`);
+    }
 
     if (markdownText.includes('<!DOCTYPE html>')) {
       throw new Error('File not found - received HTML instead of markdown');
@@ -25,6 +34,13 @@ export async function renderProjectContent(projectSlug, router) {
     popUp();
     return true;
   } catch (err) {
+    if (err.response) {
+      // Server responded with a status outside 2xx
+      console.error('HTTP error', err.response.status);
+    } else if (err.request) {
+      // Request was made but no response received
+      console.error('No response received', err.request);
+    }
     console.error(`Error loading file: ${err.message}`);
     showFeedback('error', 'Error loading file')
     router.navigate('projects');
