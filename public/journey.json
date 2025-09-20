@@ -1,6 +1,80 @@
 [
+  {
+    "year": "2024",
+    "month": "May",
+    "dateContent": [
+      {
+        "id": 1,
+        "action": "",
+        "title": "Building my design portfolio",
+        "type_icon1": "",
+        "image_1": "https://res.cloudinary.com/dlaqeohvw/image/upload/v1754748507/img-gdesign1_czw1jn.png",
+        "image_2": "https://res.cloudinary.com/dlaqeohvw/image/upload/v1754748509/img-gdesign2_a8nvmj.png",
+        "text": "Working on my design portfolio. And plan to earning from it by next month. I plan to become a graphic designer is because I'm looking ways to earn extra money and since I have some design experience, so I want to turn these skills into real income."
+      }
+    ]
+  },
 
   {
+    "year": "2024",
+    "month": "June",
+    "dateContent": [
+      {
+        "id": 1,
+        "action": "link",
+        "link": "https://rb.gy/zhkj6n",
+        "title": "My Design Portfolio",
+        "type_icon1": "<img src='/images/icon-bulb.svg' class='timeline_title-icon' title='My Project'>",
+        "image_1": "https://res.cloudinary.com/dlaqeohvw/image/upload/v1754748504/img-myportfolio_zcies7.png",
+        "image_2": "https://res.cloudinary.com/dlaqeohvw/image/upload/v1754748507/img-xhs_fghyjb.jpg",
+        "text": "Finished working on my design portfolio. I'll start posting my projects and promoting myself on xiaohongshu."
+      }
+    ]
+  },
+
+  {
+    "year": "2024",
+    "month": "July",
+    "dateContent": [
+      {
+        "id": 1,
+        "action": "",
+        "title": "From Portfolio to Paycheck",
+        "type_icon1": "",
+        "image_1": "",
+        "image_2": "",
+        "text": "After one month, I successfully closed several deals. For the first time, actually second time I turned my own skills into a real income. But I've realise this path will not be the right fit for me. Anyways, I learned alot, gaining new skills, knowledge and also the negotiation skills with clients."
+      }
+    ]
+  },
+
+  {
+    "year": "2024",
+    "month": "August",
+    "dateContent": [
+      {
+        "id": 1,
+        "action": "",
+        "title": "Bought my first guitar 🎸",
+        "type_icon1": "",
+        "image_1": "https://res.cloudinary.com/dlaqeohvw/image/upload/v1754748518/img-guitar_wcaehb.png",
+        "image_2": "https://res.cloudinary.com/dlaqeohvw/image/upload/v1754750272/img-guitar2_wn2ucs.png",
+        "text": "My first guitar bought by my own. Not expensive but finally fullfilled a long time wish."
+      },
+      {
+        "id": 1,
+        "action": "",
+        "title": "First Year of Degree Sem 1",
+        "type_icon1": "",
+        "image_1": "",
+        "image_2": "",
+        "text": "Bachelor of Engineering (Hons.) (Electronics majoring in Computer)"
+      }
+    ]
+  },
+
+  {
+    "year": "2025",
     "month": "March",
     "dateContent": [
       {
@@ -36,6 +110,7 @@
   },
 
   {
+    "year": "2025",
     "month": "August",
     "dateContent": [
       {
@@ -71,6 +146,7 @@
   },
 
   {
+    "year": "2025",
     "month": "September",
     "dateContent": [
       {
@@ -84,4 +160,5 @@
       }
     ]
   }
+
 ]
