@@ -2,6 +2,7 @@ import { popUp } from '../animation.js';
 import { router } from '../router.js';
 import { showFeedback } from './feedbackBox.js';
 import supabase from '../../api/supabase.js';
+import { iconMap } from '../iconMap.js';
 
 export async function renderProjects(router) {
   try {
@@ -63,8 +64,8 @@ function buildProjectsHTML(projects) {
             <div class="project-title-bar">
               <p class="project-title">${project.title}</p>
               <div class="logo-container">
-                ${project.tool_icon1}
-                ${project.tool_icon2}
+                ${iconMap[project.tool_icon1]}
+                ${project.tool_icon2 && iconMap[project.tool_icon2]}
               </div>
             </div>
             <p class="project-description">${project.description}</p>
