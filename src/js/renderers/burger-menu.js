@@ -1,26 +1,5 @@
-import { router } from './js/router.js';
-import gsap from "gsap";
-
-document.addEventListener('DOMContentLoaded', () => {
-  const navButtons = document.querySelectorAll("nav button");
-  navButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      navButtons.forEach((btn) => btn.classList.remove("active"));
-      button.classList.add("active");
-
-      gsap.fromTo(button,
-        { scale: 0.95 },
-        { scale: 1, duration: 0.2, ease: "power2.out" }
-      );
-
-      const route = button.id || button.dataset.route;
-      if (route) {
-        router.navigate(route);
-      }
-    });
-  });
-
-
+// Mobile Menu Functionality
+document.addEventListener('DOMContentLoaded', function() {
   const menuToggle = document.getElementById('menu-toggle');
   const mobileMenu = document.querySelector('.mobile-menu');
   const menuOverlay = document.querySelector('.menu-overlay');
@@ -79,6 +58,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
-
-

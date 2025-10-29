@@ -1,0 +1,67 @@
+.who-i-am {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 40px;
+    background: #000;
+}
+
+.who-content {
+    max-width: 800px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.who-title {
+    font-size: 14px;
+    letter-spacing: 4px;
+    color: #aaa;
+    font-weight: 300;
+    margin-bottom: 30px;
+}
+
+.who-divider {
+    width: 60px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.3);
+    margin: 0 auto 40px;
+}
+
+.who-text {
+    font-size: 28px;
+    line-height: 1.8;
+    color: #fff;
+    font-weight: 100;
+}
+
+@media (max-width: 768px) {
+    .who-i-am {
+        padding: 80px 30px;
+    }
+
+    .who-text {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    .who-i-am {
+        padding: 60px 20px;
+    }
+
+    .who-title {
+        font-size: 12px;
+    }
+
+    .who-text {
+        font-size: 18px;
+        line-height: 1.7;
+    }
+}
+
+.padding-bottom {
+    height: 1000px;
+}

@@ -19,7 +19,7 @@ export async function renderJourney(selectedYear = null, router) {
       return true;
     }
 
-    const response = await fetch(`/journey.json`);
+    const response = await fetch(`/journey_${currentYear}.json`);
     if(!response.ok) throw new Error(`HTTP ${response.status}`);
     const journey = await response.json();
 
@@ -42,9 +42,7 @@ export async function renderJourney(selectedYear = null, router) {
 }
 
 function buildJourneyHTML(journey, year) {
-  const filteredJourney = journey.filter(journey => journey.year === year);
-  
-  const journeyHTML = filteredJourney.map(journey => {
+  const journeyHTML = journey.map(journey => {
     const dateContent = journey.dateContent.map(item => {
       const img1 = document.createElement("img");
       const img2 = document.createElement("img");
@@ -92,7 +90,7 @@ function buildJourneyHTML(journey, year) {
     return `
         <div class="timeline_item">
           <div class="timeline_left">
-            <div class="timeline_date-text">${journey.month} ${journey.year}</div>
+            <div class="timeline_date-text">${journey.month} ${year}</div>
           </div>
           <div class="timeline_centre">
             <div class="timeline_circle"></div>
@@ -106,24 +104,26 @@ function buildJourneyHTML(journey, year) {
 
   return `
     <div class="fade-in">
-      <div class="year-selector">
-        <div class="year ${year === '2024' ? 'active' : ''}">2024</div>
-        <div class="year ${year === '2025' ? 'active' : ''}">2025</div>
-      </div>
       <div class="page-wrapper">
-        <div class="section-timeline">
-          <div class="container">
-            <div class="timeline_component">
-              <div class="timeline-progress">
-                <div class="timeline-progress-bar"></div>
+        <div class="black-blocker"></div>
+          <div class="year-selector">
+            <div class="year ${year === '2024' ? 'active' : ''}">2024</div>
+            <div class="year ${year === '2025' ? 'active' : ''}">2025</div>
+          </div>
+          <div class="section-timeline">
+            <div class="container">
+              <div class="timeline_component">
+                <div class="timeline-progress">
+                  <div class="timeline-progress-bar"></div>
+                </div>
+                ${journeyHTML}
+                <div class="overlay-fade-top"></div>
+                <div class="overlay-fade-bottom"></div>
               </div>
-              ${journeyHTML}
-              <div class="overlay-fade-top"></div>
-              <div class="overlay-fade-bottom"></div>
             </div>
           </div>
+          <div style="height: 45vh;"></div>
         </div>
-        <div style="height: 45vh;"></div>
       </div>
     </div>
   `;

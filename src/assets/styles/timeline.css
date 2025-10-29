@@ -1,8 +1,18 @@
+.black-blocker {
+  position: absolute;
+  background-color: var(--bgColor);
+  padding: 50px;
+  width: 100%;
+  transform: translateY(-90px);
+  z-index: 2;
+}
+
 .year-selector {
   display: flex;
   width: 100%;
   background-color: var(--bgColor);
   gap: 20px;
+  z-index: 3;
 }
 
 .year {
@@ -89,7 +99,6 @@
 }
 
 .timeline-card {
-  cursor: pointer;
   margin-bottom: 50px;
   max-width: 470px;
 }
@@ -98,6 +107,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 5px;
 }
 
 .timeline_title {
@@ -112,7 +122,6 @@
   opacity: 0.5;
   font-size: 18px;
   font-weight: 700;
-  font-style: italic;
   font-family: var(--fontSecondary);
 }
 
@@ -121,6 +130,7 @@
   opacity: 0.8;
   font-size: 13px;
   margin-bottom: 15px;
+  font-weight: 300;
 }
 
 /* Timeline visual elements */
@@ -175,7 +185,7 @@
   height: 200px;
   margin-bottom: 0;
   margin-right: 8px;
-  border-radius: 20px;
+  border-radius: 10px;
   overflow: hidden;
   object-fit: cover;
   border: 0.5px solid rgba(255, 255, 255, 0.095);
@@ -188,7 +198,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
+  background-color: var(--textPrimary);
   border-radius: 50%;
   box-sizing: border-box;
   cursor: pointer;
@@ -280,6 +290,11 @@
 
 @media screen and (max-width: 768px) {
 
+  .black-blocker {
+    transform: translateX(-150px) translateY(-90px);
+    padding: 60px;
+  }
+
   .year-selector:first-child {
     padding-left: 0;
   }
@@ -347,16 +362,5 @@
 @media screen and (max-width: 480px) {
   .container {
     margin-left: 15px;
-  }
-}
-
-/* Light mode adjustments */
-@media (prefers-color-scheme: light) {
-  .text-colour-lightgrey {
-    color: rgba(76, 76, 76, 0.65);
-  }
-  
-  .timeline-progress {
-    background-color: #888888;
   }
 }

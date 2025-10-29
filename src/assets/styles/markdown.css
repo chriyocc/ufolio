@@ -23,7 +23,7 @@
     --fgColor-attention: #d29922;
     --fgColor-danger: #f85149;
     --fgColor-done: #ab7df8;
-    --bgColor-default: rgb(30, 30, 30);
+    --bgColor-default: var(--bgColor);
     --bgColor-muted: #151b23;
     --bgColor-neutral-muted: #656c7633;
     --bgColor-attention-muted: #bb800926;
@@ -129,7 +129,7 @@
   margin: 0;
   color: var(--fgColor-default);
   background-color: var(--bgColor-default);
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-family: var(--fontSecondary);
   font-size: 16px;
   line-height: 1.5;
   word-wrap: break-word;
@@ -192,10 +192,10 @@
 }
 
 .markdown-body h1 {
+  font-family: "PT Serif", serif;
   margin: .67em 0;
-  font-weight: var(--base-text-weight-semibold, 600);
   padding-bottom: .3em;
-  font-size: 2em;
+  font-size: 4em;
   border-bottom: 1px solid var(--borderColor-muted);
 }
 

@@ -27,8 +27,10 @@ export async function renderProjectContent(projectSlug, router) {
 
     const htmlContent = marked.parse(markdownText);
     const fullHTML = `
-      <div class="markdown-body pop-up">
-        ${htmlContent}
+      <div class="page-wrapper">
+        <div class="markdown-body pop-up">
+          ${htmlContent}
+        </div>
       </div>
     `;
     document.getElementById('content-page').innerHTML = fullHTML;

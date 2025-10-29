@@ -2,6 +2,7 @@ import { renderAbout } from '/src/js/renderers/about.js';
 import { renderProjects } from '/src/js/renderers/projects.js';
 import { renderJourney } from '/src/js/renderers/journey.js';
 import { renderProjectContent } from '/src/js/renderers/projectContent.js';
+import { cleanupAnimations } from './utils/cleanup.js';
 
 export class Router {
   constructor() {
@@ -30,7 +31,6 @@ export class Router {
     
     const initRoute = this.getRouteFromUrl()
     this.navigate(initRoute.route, true, initRoute.projectSlug, initRoute.currentYear);
-    
   }
 
   getRouteFromUrl() {
@@ -63,6 +63,9 @@ export class Router {
   async navigate(route, pushState = true, projectSlug = null, currentYear = '2025') {
     const prevRoute = window.location.pathname;
     const needsLoading = this.needsLoading(route);   
+    this.updateHeader(route);
+
+    cleanupAnimations()
 
     if (needsLoading) {
       this.showLoading();
@@ -86,6 +89,7 @@ export class Router {
     }
 
     this.updateNavBar(route);
+    
 
   };
 
@@ -141,13 +145,27 @@ export class Router {
   }
 
   updateNavBar(route) {
-    if (route == 'project') {
-      document.querySelector('.nav-bar').style.display = 'none';
+    const nav = document.querySelector('nav');
+    if (!nav) return;
+
+    // Reset the nav visibility using classes instead of inline styles
+    if (route === 'project') {
+      nav.classList.add('hidden');
     } else {
-      document.querySelector('.nav-bar').style.display = 'flex';
-      document.querySelector('.nav-item.active').classList.remove('active');
-      document.getElementById(`${route}`)?.classList.add('active');
-      document.querySelector('.nav-container').classList.add('active');
+      nav.classList.remove('hidden');
+    }
+
+    // Update active button
+    const navButtons = document.querySelectorAll("nav button");
+    navButtons.forEach((btn) => btn.classList.remove("active"));
+    document.getElementById(`${route}`)?.classList.add('active');
+  }
+
+  updateHeader(route) {
+    if (route == 'about') {
+      document.querySelector('.icon-jun').style.opacity = '0';
+    } else {
+      document.querySelector('.icon-jun').style.opacity = '1';
     }
   }
 }

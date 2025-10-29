@@ -1,31 +1,39 @@
 .header {
-  display: flex;
-  flex-direction: row;
   width: 100%;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  align-items: center;
-  justify-content: center;
+  background-color: transparent;
   z-index: 1600;
-  background-color: var(--bgColor);
+  display: flex;
+  align-items: center;
+  position: absolute;
+  justify-content: space-between;
+  padding: 0 40px;
+}
+
+.header-placeholder {
+  width: 50px;
 }
 
 .icon-jun {
-  width: 100px;
-  height: 100px;
-  fill: white;
+  margin: 0;
+  width: 50px;
+  height: 50px;
+  fill: var(--textPrimary);
   object-fit: contain;
+  justify-content: flex-start;
+  opacity: 0;
 }
 
 @media (max-width: 768px) {
   .icon-jun {
-    width: 80px;
-    height: 80px;
+    width: 40px;
+    height: 40px;
   }
-}
 
-@media (prefers-color-scheme: light) {
-  .icon-jun {
-    fill: var(--textPrimary);
+  .header {
+    margin-top: 10px;
+  }
+
+  .header-placeholder {
+    width: 30px;
   }
 }

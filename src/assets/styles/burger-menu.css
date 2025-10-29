@@ -1,0 +1,115 @@
+/* Mobile Menu Styles */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  max-width: 300px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  z-index: 1700;
+  transition: right 0.3s ease;
+  padding: 80px 30px 30px;
+  display: none;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mobile-menu.active {
+  right: 0;
+}
+
+.mobile-menu button {
+  color: var(--textPrimary);
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  text-decoration: none;
+  font-weight: 100;
+  padding: 15px 20px;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-align: right;
+}
+
+.mobile-menu button.active {
+  background: var(--textPrimary);
+  border: 1px solid #646464;
+  color: #000;
+}
+
+.mobile-menu button:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Menu overlay */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1400;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Hamburger icon animation */
+.menu-toggle {
+  width: 18px;
+  height: 13px;
+  position: relative;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: 0.4s ease;
+  transform: translateX(-15px);
+}
+
+.menu-toggle span {
+  display: block;
+  height: 1px;
+  width: 100%;
+  background: var(--textPrimary);
+  border-radius: 10px;
+  transition: 0.3s ease-in-out;
+  transform-origin: center;
+}
+
+/* --- ACTIVE STATE (Perfect X icon) --- */
+.menu-toggle.active span:nth-child(1) {
+  transform: translateY(7.5px) rotate(47deg);
+}
+
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.menu-toggle.active span:nth-child(3) {
+  transform: translateY(-4.5px) rotate(-47deg);
+}
+
+
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+  }
+  .mobile-menu,
+  .menu-overlay {
+    display: flex;
+  }
+}

@@ -3,6 +3,9 @@ import { router } from '../router.js';
 import { showFeedback } from './feedbackBox.js';
 import supabase from '../../api/supabase.js';
 import { iconMap } from '../iconMap.js';
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 
 export async function renderProjects(router) {
   try {
@@ -60,12 +63,12 @@ function buildProjectsHTML(projects) {
         <div class="project-card pop-up" data-project-slug="${project.slug}" data-project-id="${project.id}">
           ${projectImg.outerHTML}
           <div class="project-info">
-            <p class="project-date">${project.date}</p>
+            <p class="project-date">${project.date && new Date(project.date + '-01').toLocaleString(undefined, { month: 'long', year: 'numeric' })}</p>
             <div class="project-title-bar">
               <p class="project-title">${project.title}</p>
               <div class="logo-container">
                 ${iconMap[project.tool_icon1]}
-                ${project.tool_icon2 && iconMap[project.tool_icon2]}
+                ${(project.tool_icon2 ?? '') && iconMap[project.tool_icon2]}
               </div>
             </div>
             <p class="project-description">${project.description}</p>
@@ -76,6 +79,9 @@ function buildProjectsHTML(projects) {
 
   return `
     <div class="page-wrapper">
+      <div class="projects-header-container">
+        <div class="projects-header">My Projects</div>
+      </div>
       <div class="project-container">
         ${projectsHTML}
       </div>
