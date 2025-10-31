@@ -117,8 +117,8 @@
   font-family: var(--fontSecondary);
 }
 
-.timeline_title-icon {
-  color: var(--textPrimary);
+.timeline_title-bar svg {
+  fill: var(--textPrimary);
   opacity: 0.5;
   font-size: 18px;
   font-weight: 700;

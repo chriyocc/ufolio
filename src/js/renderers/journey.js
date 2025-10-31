@@ -4,8 +4,21 @@ import { router } from '../router.js';
 import { renderJourneyContent } from './journeyContent.js';
 import { showFeedback } from './feedbackBox.js';
 import { showImg } from './showIMG.js';
+import supabase from '../../api/supabase.js';
+import { iconMap } from '../iconMap.js';
 
 let currentYear;
+
+/**
+ * Converts a month number (1-12) to its full string name (e.g., "January").
+ * @param {number} monthNum - The month number (1-indexed).
+ * @returns {string} The full name of the month.
+ */
+function getMonthName(monthNum) {
+  const date = new Date();
+  date.setMonth(monthNum - 1); // JS Date months are 0-indexed
+  return date.toLocaleString('en-US', { month: 'long' });
+}
 
 export async function renderJourney(selectedYear = null, router) {
   try {
@@ -19,15 +32,99 @@ export async function renderJourney(selectedYear = null, router) {
       return true;
     }
 
-    const response = await fetch(`/journey_${currentYear}.json`);
-    if(!response.ok) throw new Error(`HTTP ${response.status}`);
-    const journey = await response.json();
+    // Convert the string year to a number for the query
+    const numericYear = parseInt(currentYear, 10);
+    if (isNaN(numericYear)) {
+      throw new Error(`Invalid year provided: ${currentYear}`);
+    }
 
-    const html = buildJourneyHTML(journey, currentYear)
+    // Fetch months for the selected year
+    const { data: monthsData, error: monthsError } = await supabase
+      .from('months')
+      .select('id, year, month_num')
+      .eq('year', numericYear)
+      .order('month_num', { ascending: true });
+
+    if (monthsError) throw new Error(monthsError.message);
+
+    console.log('Months data:', monthsData);
+
+    if (!monthsData || monthsData.length === 0) {
+      console.warn(`No months found for year ${numericYear}`);
+      // Show empty state or return early
+      const html = buildJourneyHTML([], currentYear);
+      router.cachedData.journey[currentYear] = html;
+      document.querySelector('html').classList.remove('no-scroll');
+      document.getElementById('content-page').innerHTML = html;
+      fadeIn();
+      attachJourneyEvents();
+      attachYearSelectorEvents();
+      return true;
+    }
+
+    // Get all month IDs
+    const monthIds = monthsData.map(m => m.id);
+
+    // Fetch journey items for these months
+    const { data: journeyData, error: journeyError } = await supabase
+      .from('journey')
+      .select(`
+        id,
+        action,
+        link,
+        title,
+        type_icon1,
+        image_1,
+        image_2,
+        description,
+        month_id
+      `)
+      .in('month_id', monthIds);
+
+    if (journeyError) throw new Error(journeyError.message);
+
+    console.log('Journey data:', journeyData);
+
+    // Group journey items by month_id
+    const journeyByMonth = {};
+    if (journeyData) {
+      journeyData.forEach(item => {
+        if (!journeyByMonth[item.month_id]) {
+          journeyByMonth[item.month_id] = [];
+        }
+        journeyByMonth[item.month_id].push(item);
+      });
+    }
+
+    // Transform data to match the old JSON structure
+    const transformedJourney = monthsData
+      .filter(monthEntry => journeyByMonth[monthEntry.id]?.length > 0)
+      .map(monthEntry => {
+        const dateContent = journeyByMonth[monthEntry.id].map(item => ({
+          id: item.id,
+          action: item.action || "",
+          link: item.link || "",
+          title: item.title || "",
+          type_icon1: item.type_icon1 || "",
+          image_1: item.image_1 || "",
+          image_2: item.image_2 || "",
+          text: item.description || ""
+        }));
+
+        return {
+          year: String(monthEntry.year),
+          month: getMonthName(monthEntry.month_num),
+          dateContent: dateContent
+        };
+      });
+    
+    console.log('Transformed journey:', transformedJourney);
+
+    const html = buildJourneyHTML(transformedJourney, currentYear);
     
     router.cachedData.journey[currentYear] = html;
 
-    document.querySelector('html').classList.remove('no-scroll'); //To prevent residual elements
+    document.querySelector('html').classList.remove('no-scroll');
     document.getElementById('content-page').innerHTML = html;
     
     fadeIn();
@@ -37,12 +134,18 @@ export async function renderJourney(selectedYear = null, router) {
 
   } catch (error) {
     console.error('Failed to load journey', error);
-    showFeedback('error', 'Failed to load journey')
+    showFeedback('error', 'Failed to load journey');
   }
 }
 
-function buildJourneyHTML(journey, year) {
-  const journeyHTML = journey.map(journey => {
+/**
+ * Builds the HTML for the journey timeline.
+ * @param {Array} filteredJourney - The pre-filtered and transformed journey data for the selected year.
+ * @param {string} year - The currently selected year (as a string).
+ * @returns {string} The complete HTML string for the timeline.
+ */
+function buildJourneyHTML(filteredJourney, year) {
+  const journeyHTML = filteredJourney.map(journey => {
     const dateContent = journey.dateContent.map(item => {
       const img1 = document.createElement("img");
       const img2 = document.createElement("img");
@@ -73,7 +176,7 @@ function buildJourneyHTML(journey, year) {
               <div class="timeline_title">
                 ${item.title}
               </div>
-              ${item.type_icon1}
+              ${item.type_icon1 && iconMap[item.type_icon1]}
             </div>
             <p class="timeline_text">${item.text}</p>
 
@@ -90,7 +193,7 @@ function buildJourneyHTML(journey, year) {
     return `
         <div class="timeline_item">
           <div class="timeline_left">
-            <div class="timeline_date-text">${journey.month} ${year}</div>
+            <div class="timeline_date-text">${journey.month} ${journey.year}</div>
           </div>
           <div class="timeline_centre">
             <div class="timeline_circle"></div>
@@ -146,9 +249,8 @@ async function attachJourneyEvents() {
     const linkButton = e.target.closest('.timeline_link_button');
     const imgEl = e.target.closest('.timeline_image img');
 
-
     if (imgEl) {
-      showImg(imgEl.getAttribute('src'))
+      showImg(imgEl.getAttribute('src'));
     }
     
     if (linkButton) {
@@ -170,8 +272,8 @@ async function attachJourneyEvents() {
         
         case 'navigate':
           try {
-            if (!journeyID) throw new Error('Missing journeyID');
-            window.location.href = `/projects/${journeyID}`;
+            if (!link) throw new Error('Missing link URL');
+            window.location.href = link;
           } catch (err) {
             console.error('Navigation error:', err);
             showFeedback('error', 'Error');
@@ -189,11 +291,9 @@ async function attachJourneyEvents() {
           break;
         
         default:
-          showFeedback('error', 'Error')
+          showFeedback('error', 'Error');
           console.warn(`Unknown action: ${action}`);
       }
     }
   });
-
 }
-
