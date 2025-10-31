@@ -47,8 +47,6 @@ export async function renderJourney(selectedYear = null, router) {
 
     if (monthsError) throw new Error(monthsError.message);
 
-    console.log('Months data:', monthsData);
-
     if (!monthsData || monthsData.length === 0) {
       console.warn(`No months found for year ${numericYear}`);
       // Show empty state or return early
@@ -83,8 +81,6 @@ export async function renderJourney(selectedYear = null, router) {
 
     if (journeyError) throw new Error(journeyError.message);
 
-    console.log('Journey data:', journeyData);
-
     // Group journey items by month_id
     const journeyByMonth = {};
     if (journeyData) {
@@ -117,8 +113,6 @@ export async function renderJourney(selectedYear = null, router) {
           dateContent: dateContent
         };
       });
-    
-    console.log('Transformed journey:', transformedJourney);
 
     const html = buildJourneyHTML(transformedJourney, currentYear);
     

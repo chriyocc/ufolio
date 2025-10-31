@@ -17,13 +17,11 @@ export function showPopBox(popContent) {
   popUpContent.scroll(0, 0);
 
   html.classList.add('no-scroll');  
-  popUpContent.innerHTML = DOMPurify.sanitize(popContent); //To prevent XSS
+  popUpContent.innerHTML = popContent;
   popUp();
 
   closeBtn.onclick = () => {
     html.classList.remove('no-scroll');
-    popBox.style.width = '90%';
-    popBox.style.maxWidth = '1000px';
     popUpWindow.style.display = 'none';
   };
 };

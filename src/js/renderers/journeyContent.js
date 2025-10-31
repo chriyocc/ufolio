@@ -17,10 +17,19 @@ export async function renderJourneyContent(journeyID, router) {
 
     if (markdownText.includes('<!DOCTYPE html>')) {
       throw new Error('File not found - received HTML instead of markdown');
-    }//this is unnecessary after deploy
+    }
+    marked.setOptions({
+        breaks: true,
+        gfm: true
+    });
 
     const htmlContent = marked.parse(markdownText);
-    const fullHTML = htmlContent;
+    
+    const fullHTML = `
+      <div class="markdown-body" id="markdown-content">
+        ${htmlContent}
+      </div>
+`;
     return fullHTML;
   } catch (err) {
     console.error(`Error loading: ${err.message}`);
