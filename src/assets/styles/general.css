@@ -102,12 +102,11 @@ a:visited {
   padding-right: 10%;
 }
 
-/* @media (prefers-color-scheme: light) {
-  :root {
-  --bgColor: rgb(255, 255, 255);
-  --textPrimary: rgb(56, 56, 56);
-  }
-} */
+.markdown-page-wrapper {
+  margin-top: 90px;
+  min-height: 100vh;
+}
+
 
 @media (max-width: 768px) {
   
@@ -123,4 +122,21 @@ a:visited {
     margin-top: 10px;
   }
 
+  .page-wrapper {
+    margin-top: 70px;
+  }
+
+  .markdown-page-wrapper {
+    margin-top: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-wrapper {
+    margin-top: 60px;
+  }
+
+  .markdown-page-wrapper {
+    margin-top: 60px;
+  }
 }

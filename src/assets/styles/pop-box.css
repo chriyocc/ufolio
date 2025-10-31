@@ -14,9 +14,8 @@
 .pop-box {
   display: flex;
   padding: 20px;
-  max-width: 1000px;
-  width: 90%;
-  max-height: 80vh;
+  height: 95%;
+  width: 95%;
   background: #2a2c2d; /* fallback for old browsers */
   border-radius: 20px;
   border: 1px solid rgba(142, 142, 142, 0.2);
@@ -85,4 +84,11 @@
 
 .copy-btn:active {
   background-color: rgba(128, 128, 128, 0.622);
+}
+
+.pop-content iframe {
+  display: block !important;
+  max-width: 100%;
+  margin: 20px auto;
+  border-radius: 12px;
 }

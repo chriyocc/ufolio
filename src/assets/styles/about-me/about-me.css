@@ -135,7 +135,7 @@
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-    .logo-wrapper {
+    .logo-jun-wrapper {
         width: 240px;
     }
 
@@ -146,7 +146,7 @@
 
 @media (max-width: 768px) {
 
-    .logo-wrapper {
+    .logo-jun-wrapper {
         width: 200px;
     }
 
@@ -189,9 +189,6 @@
 }
 
 @media (max-width: 480px) {
-    .logo-wrapper {
-        width: 160px;
-    }
 
     .subtitle {
         font-size: 12px;
