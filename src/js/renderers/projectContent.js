@@ -55,7 +55,7 @@ export async function renderProjectContent(projectSlug, router) {
     const contentDiv = document.getElementById('markdown-content');
     const tocList = document.getElementById('toc');
 
-    const headings = contentDiv.querySelectorAll('h1, h2, h3');
+    const headings = contentDiv.querySelectorAll('h1, h2');
     const tocItems = [];
 
     headings.forEach((heading, index) => {

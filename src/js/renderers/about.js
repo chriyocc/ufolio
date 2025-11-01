@@ -31,13 +31,13 @@ export async function renderAbout() {
   tl.from("nav", {
     y: -50,
     opacity: 0,
-    duration: 1,
+    duration: 0.5,
   })
     .from(".subtitle", {
       y: 10,
       opacity: 0,
       duration: 1,
-    }, "-=0.5")
+    }, "-=0.2")
     .from(".side-text", {
       x: 10,
       opacity: 0,
@@ -88,7 +88,7 @@ export async function renderAbout() {
     ease: "sine.inOut",
   });
 
-  // Mouse movement effects - USE TRACKED LISTENER
+  // Mouse movement effects
   const mouseMoveHandler = (e) => {
     const mouseX = e.clientX / window.innerWidth - 0.5;
     const mouseY = e.clientY / window.innerHeight - 0.5;
@@ -111,141 +111,243 @@ export async function renderAbout() {
   
   addTrackedListener(document, "mousemove", mouseMoveHandler);
 
-  // Resize handler - USE TRACKED LISTENER
+  // Resize handler
   const resizeHandler = () => {
     ScrollTrigger.refresh();
   };
   
   addTrackedListener(window, "resize", resizeHandler);
 
-  gsap.to(".who-content", {
-    scrollTrigger: {
-      trigger: ".who-i-am",
-      start: "top 80%",
-      end: "top 30%",
-      scrub: 1,
-    },
-    opacity: 1,
-    y: 0,
-    ease: "power2.out",
-  });
+  // ============================================
+  // #1: WHO I AM SECTION - Bold Text Reveal
+  // ============================================
+  setupWhoIAmAnimation();
 
-  // Skills section animation
-  const skillsSection = document.querySelector(".skills");
-  
-  // Add safety check
-  if (skillsSection) {
-    const skillCategories = document.querySelectorAll(".skill-category");
+  // ============================================
+  // #2: MY SKILLS SECTION - Timeline Animation
+  // ============================================
+  setupSkillsAnimation();
 
-    const mainSkillsTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: skillsSection,
-        start: "top top",
-        end: "+=600%",
-        scrub: 1,
-        pin: true,
-        pinSpacing: true,
-      },
-      defaults: { ease: "power3.inOut" },
-    });
-
-    skillCategories.forEach((category, index) => {
-      const solidTitle = category.querySelector(".category-title.solid");
-      const gradientTitle = category.querySelector(".category-title.gradient");
-      const skillIcons = category.querySelectorAll(".skill-item");
-
-      // Step 1: Fade in and scale up the solid title
-      mainSkillsTl.fromTo(
-        solidTitle,
-        { opacity: 0, y: 40, scale: 0.9, filter: "blur(4px)" },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1.1,
-          filter: "blur(0px)",
-          duration: 3,
-        }
-      );
-
-      //HOLD
-      mainSkillsTl.to({}, { duration: 2 });
-
-      // Add subtle breathing animation for the gradient title
-      mainSkillsTl.fromTo(
-        gradientTitle,
-        { opacity: 0, y: 20, scale: 1.05, filter: "blur(6px)" },
-        {
-          opacity: 0.3,
-          y: 0,
-          scale: 1,
-          filter: "blur(0px)",
-          duration: 3,
-        },
-        "-=0.8"
-      );
-
-      mainSkillsTl.to(solidTitle, { opacity: 0, scale: 1, filter: "blur(4px)", duration: 3 }, "<");
-
-      // Step 2: Stagger in the skill icons
-      mainSkillsTl.fromTo(
-        skillIcons,
-        { opacity: 0, scale: 0.85, y: 20, z: -50 },
-        {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          z: 0,
-          duration: 0.6,
-          stagger: { each: 0.12, from: "center" },
-          ease: "back.out(1.7)",
-        },
-        "-=0.6"
-      );
-
-      // Hold for viewing
-      mainSkillsTl.to({}, { duration: 2 });
-
-      // Step 3: Subtle float effect while visible (adds liveliness)
-      mainSkillsTl.to(
-        skillIcons,
-        {
-          y: "+=10",
-          repeat: 1,
-          yoyo: true,
-          duration: 2,
-          ease: "sine.inOut",
-        },
-        "-=1.5"
-      );
-
-      // Step 4: Fade out the icons and titles
-      mainSkillsTl.to(
-        skillIcons,
-        {
-          opacity: 0,
-          scale: 0.9,
-          y: -30,
-          filter: "blur(4px)",
-          duration: 0.6,
-          stagger: { each: 0.08, from: "edges" },
-          ease: "power2.inOut",
-        },
-        "+=1"
-      );
-
-      mainSkillsTl.to(
-        [solidTitle, gradientTitle],
-        {
-          opacity: 0,
-          y: -40,
-          scale: 0.95,
-          filter: "blur(6px)",
-          duration: 0.8,
-        },
-        "-=0.5"
-      );
-    });
-  }
+  // ============================================
+  // #3: CURSOR INVERSE CIRCLE EFFECT
+  // ============================================
+  setupCursorEffect();
 
   return true;
+}
+
+// ============================================
+// WHO I AM: Progressive Bold Text Reveal
+// ============================================
+function setupWhoIAmAnimation() {
+  const whoSection = document.querySelector(".who-i-am");
+  const whoText = document.querySelector(".who-text");
+  
+  if (!whoSection || !whoText) return;
+
+  // Create wrapper for text masking effect
+  const textContent = whoText.textContent;
+  whoText.innerHTML = `
+    <span class="who-text-normal">${textContent}</span>
+    <span class="who-text-bold">${textContent}</span>
+  `;
+
+
+  const boldText = document.querySelector(".who-text-bold");
+
+  // Pin section and animate bold reveal
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: whoSection,
+      start: "top top",
+      end: "+=200%",
+      scrub: 1,
+      pin: true,
+      pinSpacing: true,
+    }
+  })
+  .to(boldText, {
+    clipPath: "inset(0 0% 0 0)",
+    duration: 1,
+    ease: "power2.inOut"
+  })
+  .to(whoSection.querySelector(".who-content"), {
+    opacity: 1,
+    y: 0,
+    duration: 0.3,
+  }, 0);
+}
+
+// ============================================
+// MY SKILLS: Timeline with Progress Animation
+// ============================================
+function setupSkillsAnimation() {
+  const skillsSection = document.querySelector(".skills");
+  if (!skillsSection) return;
+
+  // Create timeline element
+  const timelineHTML = `
+    <div class="skills-timeline">
+      <div class="timeline-line-wrapper">
+        <div class="timeline-line">
+          <div class="skills-timeline-progress"></div>
+        </div>
+        <div class="timeline-dots">
+          <div class="marker-dot" data-stage="design"></div>
+          <div class="marker-dot" data-stage="coding"></div>
+          <div class="marker-dot" data-stage="engineering"></div>
+        </div>
+      </div>
+      <div class="timeline-labels">
+        <div class="marker-label">DESIGN</div>
+        <div class="marker-label">CODING</div>
+        <div class="marker-label">ENGINEERING</div>
+      </div>
+    </div>
+  `;
+
+  // Insert timeline before skills content
+  const skillsContent = skillsSection.querySelector(".skills-content");
+  skillsContent.insertAdjacentHTML('afterbegin', timelineHTML);
+
+  const skillCategories = document.querySelectorAll(".skill-category");
+  const timelineProgress = document.querySelector(".skills-timeline-progress");
+  const markerDots = document.querySelectorAll(".marker-dot");
+  const markerLabels = document.querySelectorAll(".marker-label");
+
+  const mainSkillsTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: skillsSection,
+      start: "top top",
+      end: "+=600%",
+      scrub: 1,
+      pin: true,
+      pinSpacing: true,
+      onUpdate: (self) => {
+        // Update timeline progress
+        const progress = self.progress * 100;
+        gsap.to(timelineProgress, {
+          width: `${progress}%`,
+          duration: 0.1,
+          ease: "none"
+        });
+
+        // Activate markers based on progress
+        const activeIndex = Math.floor(self.progress * 3);
+        markerDots.forEach((dot, i) => {
+          if (i <= activeIndex) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+        
+        markerLabels.forEach((label, i) => {
+          if (i <= activeIndex) {
+            label.classList.add('active');
+          } else {
+            label.classList.remove('active');
+          }
+        });
+      }
+    },
+    defaults: { ease: "power3.inOut" },
+  });
+
+  skillCategories.forEach((category, index) => {
+    const solidTitle = category.querySelector(".category-title.solid");
+    const gradientTitle = category.querySelector(".category-title.gradient");
+    const skillIcons = category.querySelectorAll(".skill-item");
+
+    // Fade in and scale up the solid title
+    mainSkillsTl.fromTo(
+      solidTitle,
+      { opacity: 0, y: 40, scale: 0.9, filter: "blur(4px)" },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1.1,
+        filter: "blur(0px)",
+        duration: 1,
+      }
+    );
+
+    // Hold
+    mainSkillsTl.to({}, { duration: 1 });
+
+    // Gradient title reveal
+    mainSkillsTl.fromTo(
+      gradientTitle,
+      { opacity: 0, y: 20, scale: 1.05, filter: "blur(6px)" },
+      {
+        opacity: 0.3,
+        y: 0,
+        scale: 1,
+        filter: "blur(0px)",
+        duration: 1,
+      },
+      "-=0.2"
+    );
+
+    mainSkillsTl.to(solidTitle, { opacity: 0, scale: 1, filter: "blur(4px)", duration: 1 }, "<");
+
+    // Stagger in skill icons
+    mainSkillsTl.fromTo(
+      skillIcons,
+      { opacity: 0, scale: 0.85, y: 20, z: -50 },
+      {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        z: 0,
+        duration: 0.6,
+        stagger: { each: 0.12, from: "center" },
+        ease: "back.out(1.7)",
+      },
+      "-=0.6"
+    );
+
+    // Hold for viewing
+    mainSkillsTl.to({}, { duration: 0.5 });
+
+    // Float effect
+    mainSkillsTl.to(
+      skillIcons,
+      {
+        y: "+=10",
+        repeat: 1,
+        yoyo: true,
+        duration: 1,
+        ease: "sine.inOut",
+      },
+      "-=1.5"
+    );
+
+    // Fade out
+    mainSkillsTl.to(
+      skillIcons,
+      {
+        opacity: 0,
+        scale: 0.9,
+        y: -30,
+        filter: "blur(4px)",
+        duration: 0.6,
+        stagger: { each: 0.08, from: "edges" },
+        ease: "power2.inOut",
+      },
+      "+=1"
+    );
+
+    mainSkillsTl.to(
+      [solidTitle, gradientTitle],
+      {
+        opacity: 0,
+        y: -40,
+        scale: 0.95,
+        filter: "blur(6px)",
+        duration: 0.8,
+      },
+      "-=0.5"
+    );
+  });
 }

@@ -131,6 +131,105 @@
     color: #F24E1E;
 }
 
+.skills-timeline {
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    z-index: 100;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+.timeline-line-wrapper {
+    position: relative;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.timeline-line {
+    position: relative;
+    width: 100%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+.skills-timeline-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #fff, #888);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+.timeline-dots {
+    position: absolute;
+    top: -6px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.marker-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+.marker-dot.active {
+    background: #fff;
+    border-color: #fff;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    transform: scale(1.3);
+}
+.timeline-labels {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.marker-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.3);
+    font-weight: 400;
+    transition: all 0.3s ease;
+    text-align: center;
+    flex: 1;
+}
+.marker-label.active {
+    color: #fff;
+    font-weight: 600;
+}
+@media (max-width: 768px) {
+    .skills-timeline {
+        top: 60px;
+        width: 500px;
+    }
+
+    .marker-label {
+        font-size: 9px;
+        letter-spacing: 1px;
+    }
+}
+@media (max-width: 480px) {
+    .skills-timeline {
+        width: 300px;
+    }
+
+    .marker-label {
+    font-size: 8px;
+    }
+}
+
 @media (max-width: 1024px) {
 
   .category-title {

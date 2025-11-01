@@ -151,6 +151,7 @@ export class Router {
     // Reset the nav visibility using classes instead of inline styles
     if (route === 'project') {
       nav.classList.add('hidden');
+      return;
     } else {
       nav.classList.remove('hidden');
     }

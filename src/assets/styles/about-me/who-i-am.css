@@ -9,7 +9,7 @@
 }
 
 .who-content {
-    max-width: 800px;
+    max-width: 880px;
     text-align: center;
     opacity: 0;
     transform: translateY(30px);
@@ -35,6 +35,25 @@
     line-height: 1.8;
     color: #fff;
     font-weight: 100;
+    position: relative;
+}
+
+.who-text-normal {
+    display: block;
+    font-weight: 100;
+    color: #ffffff5d;
+}
+.who-text-bold {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    font-weight: 100;
+    clip-path: inset(0 100% 0 0);
+    background: linear-gradient(90deg, #fff 0%, #ddd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 @media (max-width: 768px) {
