@@ -89,8 +89,6 @@ export class Router {
     }
 
     this.updateNavBar(route);
-    
-
   };
 
   buildRouteData(route, projectSlug, currentYear) {
@@ -147,19 +145,28 @@ export class Router {
   updateNavBar(route) {
     const nav = document.querySelector('nav');
     if (!nav) return;
-
+    console.log(route);
+    
     // Reset the nav visibility using classes instead of inline styles
     if (route === 'project') {
-      nav.classList.add('hidden');
+      nav.style.opacity = '0';
       return;
     } else {
-      nav.classList.remove('hidden');
+      nav.style.opacity = '1';
     }
 
-    // Update active button
+    // Update active button for desktop navigation
     const navButtons = document.querySelectorAll("nav button");
     navButtons.forEach((btn) => btn.classList.remove("active"));
     document.getElementById(`${route}`)?.classList.add('active');
+
+    // Update active button for mobile menu
+    const mobileMenuButtons = document.querySelectorAll('.mobile-menu button');
+    mobileMenuButtons.forEach((btn) => btn.classList.remove("active"));
+    const mobileActiveBtn = document.querySelector(`.mobile-menu button#${route}`);
+    if (mobileActiveBtn) {
+      mobileActiveBtn.classList.add('active');
+    }
   }
 
   updateHeader(route) {

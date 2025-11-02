@@ -12,8 +12,24 @@ export async function renderAbout() {
   
   gsap.registerPlugin(ScrollTrigger);
 
-  // Create and store Lenis instance
+  // Create loading overlay
+  const loadingOverlay = document.createElement('div');
+  loadingOverlay.className = 'start-page-loader';
+  loadingOverlay.innerHTML = `
+    <div class="loader-content">
+      <div class="loader-line"></div>
+      <div class="loader-text">LOADING PORTFOLIO</div>
+      <div class="loader-progress">0%</div>
+    </div>
+  `;
+  document.body.appendChild(loadingOverlay);
+
+  // Disable scroll initially
+  document.body.style.overflow = 'hidden';
+  
+  // Create and store Lenis instance (but don't start it yet)
   window.lenisInstance = new Lenis();
+  window.lenisInstance.stop(); // Keep it stopped initially
   window.lenisInstance.on("scroll", ScrollTrigger.update);
   
   // Store the RAF callback for cleanup
@@ -26,7 +42,36 @@ export async function renderAbout() {
   gsap.ticker.add(window.lenisRAF);
   gsap.ticker.lagSmoothing(0);
 
-  const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+  // Loader animation
+  const loaderTl = gsap.timeline();
+  const loaderProgress = loadingOverlay.querySelector('.loader-progress');
+  
+  loaderTl
+    .to('.loader-line', {
+      scaleX: 1,
+      duration: 1,
+      ease: "power2.inOut",
+      onUpdate: function() {
+        const progress = Math.round(this.progress() * 100);
+        loaderProgress.textContent = progress + '%';
+      }
+    })
+    .to('.loader-content', {
+      opacity: 0,
+      y: -30,
+      duration: 0.5,
+      ease: "power2.in"
+    })
+    .to('.start-page-loader', {
+      clipPath: 'inset(0 0 100% 0)',
+      duration: 0.8,
+      ease: "power3.inOut",
+    });
+
+  const tl = gsap.timeline({ 
+    defaults: { ease: "power3.out" },
+    delay: 2.5 // Start after loader
+  });
 
   tl.from("nav", {
     y: -50,
@@ -36,13 +81,24 @@ export async function renderAbout() {
     .from(".subtitle", {
       y: 10,
       opacity: 0,
-      duration: 1,
+      duration: 0.5,
     }, "-=0.2")
     .from(".side-text", {
       x: 10,
       opacity: 0,
+      duration: 0.5,
+    }, "-=0.2")
+    .to(".scroll-indicator", {
+      opacity: 1,
+      y: -10,
       duration: 1,
-    }, "-=0.2");
+      ease: "power2.out",
+      onComplete: () => {
+        loadingOverlay.remove();
+        document.body.style.overflow = '';
+        window.lenisInstance.start(); // Start smooth scrolling
+      }
+    }, "-=0.1");
 
   // Scroll-based nav animation
   gsap.fromTo("nav", 
@@ -60,6 +116,22 @@ export async function renderAbout() {
       ease: "power1.out",
     }
   );
+
+  // Fade out scroll indicator on scroll
+  gsap.fromTo(".scroll-indicator", {
+      y: 0,
+    },
+    {
+    scrollTrigger: {
+      trigger: ".name-wrapper",
+      start: "top top",
+      end: "+=300px",
+      scrub: 1,
+    },
+    opacity: 0,
+    y: -20,
+    ease: "power1.out"
+  });
 
   // Scroll-based side-text animation
   gsap.fromTo(".side-text", 
@@ -294,7 +366,7 @@ function setupSkillsAnimation() {
     // Stagger in skill icons
     mainSkillsTl.fromTo(
       skillIcons,
-      { opacity: 0, scale: 0.85, y: 20, z: -50 },
+      { opacity: 0, scale: 0.85, y: 0, z: -50 },
       {
         opacity: 1,
         scale: 1,
