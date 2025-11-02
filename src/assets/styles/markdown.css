@@ -283,7 +283,6 @@
 .markdown-body img {
     border-style: none;
     max-width: 100%;
-    height: auto; /* Maintain aspect ratio */
     border-radius: 8px;
     box-sizing: content-box;
 }
