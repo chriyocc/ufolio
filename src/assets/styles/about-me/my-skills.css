@@ -127,6 +127,11 @@
     height: 36px;
 }
 
+.skill-icon img {
+    width: 36px;
+    height: 36px;
+}
+
 .skill-icon.figma svg {
     color: #F24E1E;
 }

@@ -91,7 +91,7 @@ export async function renderAbout() {
     .to(".scroll-indicator", {
       opacity: 1,
       y: -10,
-      duration: 1,
+      duration: 0.5,
       ease: "power2.out",
       onComplete: () => {
         loadingOverlay.remove();

@@ -89,14 +89,14 @@ export async function renderProjectContent(projectSlug, router) {
         activeItem.classList.add('active');
     }
 
-    const theWindow = document.querySelector('body');
+    // Fixed: Use window instead of body, and window.scrollY instead of contentArea.scrollTop
     let ticking = false;
 
-    theWindow.addEventListener('scroll', () => {
+    window.addEventListener('scroll', () => {
         if (!ticking) {
             window.requestAnimationFrame(() => {
                 let current = null;
-                const scrollPos = contentArea.scrollTop + 100;
+                const scrollPos = window.scrollY + 100; // Fixed: use window.scrollY
 
                 tocItems.forEach(item => {
                     const headingTop = item.heading.offsetTop;
