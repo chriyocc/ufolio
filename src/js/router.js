@@ -45,12 +45,12 @@ export class Router {
       return { route: 'project', projectSlug: path[1] }
     };
 
-    if (path[0] == 'journey' && path[1] === '2024' || path[1] === '2025') {
-      return { route: 'journey', currentYear: path[1] }
-    };
-
     if (path[0] == 'journey') {
-      return { route: 'journey', currentYear: '2025' }
+      // Check if path[1] is a 4-digit year
+      if (path[1] && /^\d{4}$/.test(path[1])) {
+        return { route: 'journey', currentYear: path[1] };
+      }
+      return { route: 'journey', currentYear: null };
     };
 
     return {
@@ -60,7 +60,7 @@ export class Router {
     };
   }
 
-  async navigate(route, pushState = true, projectSlug = null, currentYear = '2025') {
+  async navigate(route, pushState = true, projectSlug = null, currentYear = null) {
     const prevRoute = window.location.pathname;
     const needsLoading = this.needsLoading(route);   
     this.updateHeader(route);
@@ -98,11 +98,18 @@ export class Router {
         stateData: { route, projectSlug }
       };
     }
-    if (route == 'journey' && currentYear) {
-      return {
-        url: `/journey/${currentYear}`,
-        stateData: { route, currentYear }
-      };
+    if (route == 'journey') {
+      if (currentYear) {
+        return {
+          url: `/journey/${currentYear}`,
+          stateData: { route, currentYear }
+        };
+      } else {
+        return {
+          url: `/journey`,
+          stateData: { route }
+        };
+      }
     }
     return {
       url: `/${route == 'projects' ? 'projects' : ''}`,

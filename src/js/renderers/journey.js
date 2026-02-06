@@ -20,15 +20,48 @@ function getMonthName(monthNum) {
   return date.toLocaleString('en-US', { month: 'long' });
 }
 
+/**
+ * Fetches available years from the database.
+ * @returns {Promise<string[]>} Array of unique years as strings.
+ */
+async function getAvailableYears() {
+  const { data, error } = await supabase
+    .from('months')
+    .select('year')
+    .order('year', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching years:', error);
+    return [];
+  }
+  
+  // Return unique years as strings
+  return [...new Set(data.map(item => String(item.year)))];
+}
+
 export async function renderJourney(selectedYear = null, router) {
   try {
-    if (selectedYear) currentYear = selectedYear;
+    // 1. Fetch available years if not cached
+    if (!router.cachedData.availableYears) {
+      router.cachedData.availableYears = await getAvailableYears();
+    }
+    const availableYears = router.cachedData.availableYears;
+
+    // 2. Set currentYear
+    // If selectedYear is provided, use it.
+    // If not, use the most recent available year, or default to current system year.
+    if (selectedYear) {
+      currentYear = selectedYear;
+    } else {
+        currentYear = availableYears.length > 0 ? availableYears[0] : String(new Date().getFullYear());
+    }
+
     if (!router.cachedData.journey) router.cachedData.journey = {};
     if (router.cachedData.journey[currentYear]) {
       document.getElementById('content-page').innerHTML = router.cachedData.journey[currentYear];
       fadeIn();
       attachJourneyEvents();
-      attachYearSelectorEvents();
+      attachYearSelectorEvents(router);
       return true;
     }
 
@@ -50,13 +83,13 @@ export async function renderJourney(selectedYear = null, router) {
     if (!monthsData || monthsData.length === 0) {
       console.warn(`No months found for year ${numericYear}`);
       // Show empty state or return early
-      const html = buildJourneyHTML([], currentYear);
+      const html = buildJourneyHTML([], currentYear, availableYears);
       router.cachedData.journey[currentYear] = html;
       document.querySelector('html').classList.remove('no-scroll');
       document.getElementById('content-page').innerHTML = html;
       fadeIn();
       attachJourneyEvents();
-      attachYearSelectorEvents();
+      attachYearSelectorEvents(router);
       return true;
     }
 
@@ -114,7 +147,7 @@ export async function renderJourney(selectedYear = null, router) {
         };
       });
 
-    const html = buildJourneyHTML(transformedJourney, currentYear);
+    const html = buildJourneyHTML(transformedJourney, currentYear, availableYears);
     
     router.cachedData.journey[currentYear] = html;
 
@@ -123,7 +156,7 @@ export async function renderJourney(selectedYear = null, router) {
     
     fadeIn();
     attachJourneyEvents();
-    attachYearSelectorEvents();
+    attachYearSelectorEvents(router);
     return true;
 
   } catch (error) {
@@ -136,9 +169,15 @@ export async function renderJourney(selectedYear = null, router) {
  * Builds the HTML for the journey timeline.
  * @param {Array} filteredJourney - The pre-filtered and transformed journey data for the selected year.
  * @param {string} year - The currently selected year (as a string).
+ * @param {string[]} availableYears - List of available years.
  * @returns {string} The complete HTML string for the timeline.
  */
-function buildJourneyHTML(filteredJourney, year) {
+function buildJourneyHTML(filteredJourney, year, availableYears) {
+  // Generate Year Selector HTML
+  const yearSelectorHTML = availableYears.map(y => 
+    `<div class="year ${y === year ? 'active' : ''}">${y}</div>`
+  ).join('');
+
   const journeyHTML = filteredJourney.map(journey => {
     const dateContent = journey.dateContent.map(item => {
       const img1 = document.createElement("img");
@@ -204,8 +243,7 @@ function buildJourneyHTML(filteredJourney, year) {
       <div class="page-wrapper">
         <div class="black-blocker"></div>
           <div class="year-selector">
-            <div class="year ${year === '2024' ? 'active' : ''}">2024</div>
-            <div class="year ${year === '2025' ? 'active' : ''}">2025</div>
+            ${yearSelectorHTML}
           </div>
           <div class="section-timeline">
             <div class="container">
@@ -226,7 +264,7 @@ function buildJourneyHTML(filteredJourney, year) {
   `;
 }
 
-function attachYearSelectorEvents() {
+function attachYearSelectorEvents(router) {
   document.querySelector('.year-selector').addEventListener('click', async (e) => {
     const yearButton = e.target.closest('.year');
 
