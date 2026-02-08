@@ -110,7 +110,8 @@ export async function renderJourney(selectedYear = null, router) {
         description,
         month_id
       `)
-      .in('month_id', monthIds);
+      .in('month_id', monthIds)
+      .order('created_at', { ascending: true });
 
     if (journeyError) throw new Error(journeyError.message);
 

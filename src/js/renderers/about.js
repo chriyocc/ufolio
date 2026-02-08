@@ -2,6 +2,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { addTrackedListener } from '../utils/cleanup.js';
+import { setupCursorEffect } from './cursor.js';
 
 export async function renderAbout() {
   const response = await fetch('/about.html');

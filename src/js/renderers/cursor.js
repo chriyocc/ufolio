@@ -1,7 +1,7 @@
 // ============================================
 // CURSOR: Inverse Circle Following Effect
 // ============================================
-function setupCursorEffect() {
+export function setupCursorEffect() {
   // Check if device has fine pointer (mouse)
   const hasMouse = window.matchMedia("(pointer: fine)").matches;
   if (!hasMouse) return;
