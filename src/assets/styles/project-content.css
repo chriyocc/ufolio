@@ -523,6 +523,7 @@
   }
 
   .project-detail__toc {
+    display: block;
     position: sticky;
     top: 0;
     z-index: 20;
