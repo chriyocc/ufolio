@@ -253,7 +253,7 @@
   grid-template-columns: 22px minmax(0, 1fr);
   align-items: center;
   gap: 8px;
-  color: var(--project-faint);
+  color: var(--project-muted);
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 10px;
   font-weight: 500;
@@ -287,7 +287,7 @@
 }
 
 .project-detail__toc-link > span:first-child {
-  color: var(--project-faint);
+  color: var(--project-muted);
   font-variant-numeric: tabular-nums;
 }
 
