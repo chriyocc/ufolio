@@ -80,7 +80,7 @@ function updateActiveHeading(headings, linksByHeadingId) {
   if (headings.length === 0) return;
 
   const readingThreshold = window.innerWidth < 1024 ? 132 : 128;
-  let currentHeading = headings[0];
+  let currentHeading = null;
 
   headings.forEach((heading) => {
     if (heading.getBoundingClientRect().top <= readingThreshold) {
@@ -89,7 +89,7 @@ function updateActiveHeading(headings, linksByHeadingId) {
   });
 
   linksByHeadingId.forEach((link, headingId) => {
-    const isActive = headingId === currentHeading.id;
+    const isActive = headingId === currentHeading?.id;
     link.classList.toggle('active', isActive);
     if (isActive) link.setAttribute('aria-current', 'location');
     else link.removeAttribute('aria-current');
@@ -166,13 +166,16 @@ export async function renderProjectContent(projectSlug, router) {
 
     if (error) throw error;
 
-    const markdownText = project.markdown_content?.trim() || '';
-    if (markdownText.includes('<!DOCTYPE html>')) {
+    const rawMarkdown = typeof project.markdown_content === 'string'
+      ? project.markdown_content
+      : '';
+    const normalizedMarkdown = rawMarkdown.trim();
+    if (normalizedMarkdown.includes('<!DOCTYPE html>')) {
       throw new Error('File not found - received HTML instead of markdown');
     }
 
     marked.setOptions({ breaks: true, gfm: true });
-    const markdownHTML = markdownText ? marked.parse(markdownText) : '';
+    const markdownHTML = normalizedMarkdown ? marked.parse(rawMarkdown) : '';
     const contentPage = document.getElementById('content-page');
 
     contentPage.innerHTML = buildProjectContentHTML({
