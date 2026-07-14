@@ -33,6 +33,7 @@ test('renders image-led project metadata and trusted markdown', () => {
   assert.match(html, /August 2025/);
   assert.match(html, /signal\.jpg/);
   assert.match(html, /data-tool="vite"/);
+  assert.match(html, /<article class="project-detail__markdown markdown-body"/);
   assert.match(html, /<h2>Overview<\/h2>/);
 });
 

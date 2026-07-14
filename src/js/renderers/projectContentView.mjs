@@ -89,7 +89,7 @@ export function buildProjectContentHTML({
     ? `<div class="project-detail__context">${summaryHTML}${factsHTML}</div>`
     : '';
   const articleHTML = hasMarkdown
-    ? `<div class="project-detail__markdown markdown-body" id="markdown-content">${markdownHTML}</div>`
+    ? `<article class="project-detail__markdown markdown-body" id="markdown-content">${markdownHTML}</article>`
     : `
       <div class="project-detail__empty">
         <span class="project-detail__label">Project notes</span>
@@ -97,7 +97,7 @@ export function buildProjectContentHTML({
       </div>`;
 
   return `
-    <article class="${rootClass}">
+    <div class="${rootClass}">
       <div class="project-detail__shell">
         <div class="project-detail__utility pop-up">
           <a class="project-detail__back" href="/projects" data-project-back>
@@ -130,6 +130,6 @@ export function buildProjectContentHTML({
           </a>
         </footer>
       </div>
-    </article>
+    </div>
   `;
 }
