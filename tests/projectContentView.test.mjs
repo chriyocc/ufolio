@@ -86,6 +86,7 @@ test('keeps valid partial metadata and ignores unknown tool icons', () => {
   assert.doesNotMatch(html, /project-detail__summary/);
   assert.match(html, /August 2025/);
   assert.match(html, /data-tool="vite"/);
+  assert.match(html, /class="project-detail__tool-name">vite<\/span>/);
   assert.equal((html.match(/data-project-back/g) || []).length, 2);
   assert.equal((html.match(/<h1/g) || []).length, 1);
   assert.match(html, /class="project-detail__toc"[^>]*hidden/);

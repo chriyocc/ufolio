@@ -21,14 +21,18 @@ export function formatProjectDate(value, locale = undefined) {
   }).format(date);
 }
 
-export function resolveProjectIcons(project = {}, iconsByName = {}) {
+function resolveProjectTools(project = {}, iconsByName = {}) {
   return [project.tool_icon1, project.tool_icon2]
-    .map((iconName) => iconsByName[iconName])
-    .filter((iconMarkup) => typeof iconMarkup === 'string' && iconMarkup.trim());
+    .map((name) => ({ name, icon: iconsByName[name] }))
+    .filter(({ icon }) => typeof icon === 'string' && icon.trim());
 }
 
-function buildFacts(date, toolIcons) {
-  if (!date && toolIcons.length === 0) return '';
+export function resolveProjectIcons(project = {}, iconsByName = {}) {
+  return resolveProjectTools(project, iconsByName).map(({ icon }) => icon);
+}
+
+function buildFacts(date, projectTools) {
+  if (!date && projectTools.length === 0) return '';
 
   const dateHTML = date
     ? `
@@ -37,12 +41,16 @@ function buildFacts(date, toolIcons) {
         <span class="project-detail__fact-value">${escapeHTML(date)}</span>
       </div>`
     : '';
-  const toolsHTML = toolIcons.length
+  const toolsHTML = projectTools.length
     ? `
       <div class="project-detail__fact project-detail__fact--tools">
         <span class="project-detail__label">Built with</span>
         <div class="project-detail__tools" aria-label="Technologies used">
-          ${toolIcons.map((icon) => `<span class="project-detail__tool" aria-hidden="true">${icon}</span>`).join('')}
+          ${projectTools.map(({ name, icon }) => `
+            <span class="project-detail__tool">
+              <span class="project-detail__tool-name">${escapeHTML(name)}</span>
+              <span aria-hidden="true">${icon}</span>
+            </span>`).join('')}
         </div>
       </div>`
     : '';
@@ -59,8 +67,8 @@ export function buildProjectContentHTML({
   const title = escapeHTML(project.title || 'Untitled project');
   const description = project.description ? escapeHTML(project.description) : '';
   const date = formatProjectDate(project.date, locale);
-  const toolIcons = resolveProjectIcons(project, iconsByName);
-  const factsHTML = buildFacts(date, toolIcons);
+  const projectTools = resolveProjectTools(project, iconsByName);
+  const factsHTML = buildFacts(date, projectTools);
   const hasImage = Boolean(project.image);
   const hasMarkdown = Boolean(markdownHTML.trim());
   const rootClass = hasImage
