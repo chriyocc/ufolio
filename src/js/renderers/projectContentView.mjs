@@ -80,7 +80,7 @@ export function buildProjectContentHTML({
         <img
           class="project-detail__hero-image"
           src="${escapeHTML(project.image)}"
-          alt="${title} project preview"
+          alt="${title}"
           loading="eager"
           fetchpriority="high"
         >
