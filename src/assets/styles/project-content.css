@@ -566,14 +566,22 @@
     white-space: nowrap;
   }
 
-  .project-detail__toc-link.active {
-    color: #121212;
+  .project-detail__toc-link::after {
+    content: "";
+    position: absolute;
+    right: 12px;
+    bottom: 2px;
+    left: 12px;
+    height: 1px;
     background: var(--project-text);
-    border-radius: 999px;
+    opacity: 0;
+    transform: scaleX(0);
+    transition: opacity 200ms ease, transform 200ms var(--project-ease);
   }
 
-  .project-detail__toc-link.active > span:first-child {
-    color: rgba(18, 18, 18, 0.55);
+  .project-detail__toc-link.active::after {
+    opacity: 1;
+    transform: scaleX(1);
   }
 }
 
@@ -686,6 +694,7 @@
   .project-detail__back > span:first-child,
   .project-detail__toc-link,
   .project-detail__toc-link::before,
+  .project-detail__toc-link::after,
   .project-detail .markdown-body a {
     transition: none;
   }
