@@ -5,7 +5,11 @@ import { iconMap } from '../iconMap.js';
 import { addTrackedListener } from '../utils/cleanup.js';
 import supabase from '../../api/supabase.js';
 import { showFeedback } from './feedbackBox.js';
-import { buildProjectContentHTML } from './projectContentView.mjs';
+import {
+  buildProjectContentHTML,
+  isPrimaryProjectHeading,
+  splitProjectHeading,
+} from './projectContentView.mjs';
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -37,8 +41,20 @@ function normalizeProjectHeadings(content) {
   const headings = [...content.querySelectorAll('h2, h3')];
 
   headings.forEach((heading) => {
-    heading.id = createHeadingId(heading.textContent, seenIds);
+    const { icon, label } = splitProjectHeading(heading.textContent);
+
+    heading.id = createHeadingId(label, seenIds);
     heading.tabIndex = -1;
+    heading.dataset.projectHeadingLabel = label;
+
+    if (icon) {
+      const iconElement = document.createElement('span');
+      iconElement.className = 'project-detail__heading-icon';
+      iconElement.setAttribute('aria-hidden', 'true');
+      iconElement.textContent = icon;
+      heading.textContent = '';
+      heading.append(iconElement, document.createTextNode(label));
+    }
   });
 
   return headings;
@@ -64,7 +80,7 @@ function populateTableOfContents(page, headings) {
     link.href = `#${heading.id}`;
     link.dataset.headingId = heading.id;
     indexLabel.textContent = String(index + 1).padStart(2, '0');
-    headingLabel.textContent = heading.textContent;
+    headingLabel.textContent = heading.dataset.projectHeadingLabel || heading.textContent;
     link.append(indexLabel, headingLabel);
     item.appendChild(link);
     tocList.appendChild(item);
@@ -187,9 +203,10 @@ export async function renderProjectContent(projectSlug, router) {
     const page = contentPage.querySelector('.project-detail');
     const markdownContent = page.querySelector('.project-detail__markdown');
     const headings = markdownContent ? normalizeProjectHeadings(markdownContent) : [];
-    const linksByHeadingId = populateTableOfContents(page, headings);
+    const navigationHeadings = headings.filter((heading) => isPrimaryProjectHeading(heading.tagName));
+    const linksByHeadingId = populateTableOfContents(page, navigationHeadings);
 
-    attachProjectInteractions(page, headings, linksByHeadingId, router);
+    attachProjectInteractions(page, navigationHeadings, linksByHeadingId, router);
     popUp();
     return true;
   } catch (error) {

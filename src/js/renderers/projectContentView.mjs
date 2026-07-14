@@ -5,6 +5,19 @@ const escapeHTML = (value = '') => String(value)
   .replaceAll('"', '&quot;')
   .replaceAll("'", '&#039;');
 
+export function splitProjectHeading(value = '') {
+  const heading = String(value).trim();
+  const match = heading.match(/^(\p{Extended_Pictographic}\uFE0F?)\s+(.+)$/u);
+
+  return match
+    ? { icon: match[1], label: match[2] }
+    : { icon: '', label: heading };
+}
+
+export function isPrimaryProjectHeading(tagName = '') {
+  return String(tagName).toUpperCase() === 'H2';
+}
+
 export function formatProjectDate(value, locale = undefined) {
   if (!value) return '';
 
@@ -78,6 +91,14 @@ export function buildProjectContentHTML({
     ? `
       <figure class="project-detail__hero pop-up">
         <img
+          class="project-detail__hero-ambient"
+          src="${escapeHTML(project.image)}"
+          alt=""
+          aria-hidden="true"
+          decoding="async"
+          fetchpriority="low"
+        >
+        <img
           class="project-detail__hero-image"
           src="${escapeHTML(project.image)}"
           alt="${title}"
@@ -114,7 +135,6 @@ export function buildProjectContentHTML({
           </a>
           <span class="project-detail__utility-label">Selected work</span>
         </div>
-        ${heroHTML}
         <header class="project-detail__header pop-up">
           <div class="project-detail__heading">
             <span class="project-detail__label">Project showcase</span>
@@ -122,6 +142,7 @@ export function buildProjectContentHTML({
           </div>
           ${contextHTML}
         </header>
+        ${heroHTML}
         <div class="project-detail__story project-detail__story--no-toc">
           <nav class="project-detail__toc" aria-label="On this page" hidden>
             <span class="project-detail__label">On this page</span>

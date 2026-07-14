@@ -4,13 +4,28 @@ import assert from 'node:assert/strict';
 import {
   buildProjectContentHTML,
   formatProjectDate,
+  isPrimaryProjectHeading,
   resolveProjectIcons,
+  splitProjectHeading,
 } from '../src/js/renderers/projectContentView.mjs';
 
 test('formats project month values for display', () => {
   assert.equal(formatProjectDate('2025-08', 'en-US'), 'August 2025');
   assert.equal(formatProjectDate('', 'en-US'), '');
   assert.equal(formatProjectDate('not-a-date', 'en-US'), '');
+});
+
+test('separates decorative heading icons and keeps only primary headings in the section index', () => {
+  assert.deepEqual(splitProjectHeading('🧰 Tech Stack'), {
+    icon: '🧰',
+    label: 'Tech Stack',
+  });
+  assert.deepEqual(splitProjectHeading('Hardware'), {
+    icon: '',
+    label: 'Hardware',
+  });
+  assert.equal(isPrimaryProjectHeading('H2'), true);
+  assert.equal(isPrimaryProjectHeading('h3'), false);
 });
 
 test('renders image-led project metadata and trusted markdown', () => {
@@ -34,6 +49,17 @@ test('renders image-led project metadata and trusted markdown', () => {
   assert.match(html, /signal\.jpg/);
   assert.match(html, /alt="Signal Lab"/);
   assert.doesNotMatch(html, /alt="Signal Lab project preview"/);
+  assert.match(html, /class="project-detail__hero-ambient"/);
+  assert.match(html, /class="project-detail__hero-ambient"[\s\S]*?alt=""[\s\S]*?aria-hidden="true"/);
+  assert.ok(
+    html.indexOf('project-detail__hero-ambient') < html.indexOf('project-detail__hero-image'),
+    'tonal wash should sit behind the accessible lead image',
+  );
+  assert.equal((html.match(/signal\.jpg/g) || []).length, 2);
+  assert.ok(
+    html.indexOf('project-detail__header') < html.indexOf('project-detail__hero'),
+    'project identity should appear before lead media',
+  );
   assert.match(html, /data-tool="vite"/);
   assert.match(html, /<article class="project-detail__markdown markdown-body"/);
   assert.match(html, /<h2>Overview<\/h2>/);
